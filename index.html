@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<!-- AgroBot Modal -->
+<style>
+  #agrobot-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  #agrobot-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  #agrobot-modal {
+    background: #0f0f0f;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 48px;
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  #agrobot-modal-overlay.open #agrobot-modal {
+    transform: translateY(0) scale(1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 20px;
+    cursor: none;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: #fff; }
+  .modal-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d2f000;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .modal-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 8px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .modal-desc {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .modal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: transparent;
+    color: #fff;
+    text-decoration: none;
+    cursor: none;
+    transition: border-color 0.3s ease, background 0.3s ease, padding-left 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-option::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(210,240,0,0.04);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .modal-option:hover::before { transform: scaleX(1); }
+  .modal-option:hover {
+    border-color: rgba(210,240,0,0.25);
+    padding-left: 30px;
+  }
+  .modal-option-icon {
+    font-size: 20px;
+    color: #333;
+    transition: color 0.3s;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .modal-option:hover .modal-option-icon { color: #d2f000; }
+  .modal-option-text { position: relative; z-index: 1; }
+  .modal-option-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #333;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .modal-option-name {
+    font-size: 15px;
+    color: #888;
+    transition: color 0.3s;
+  }
+  .modal-option:hover .modal-option-name { color: #d2f000; }
+  .modal-option-arrow {
+    margin-left: auto;
+    font-size: 16px;
+    color: #222;
+    transition: color 0.3s, transform 0.3s;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .modal-option:hover .modal-option-arrow {
+    color: #d2f000;
+    transform: translate(4px, -4px);
+  }
+</style>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="description" content="Kanishk Ashish Dubey — Student Developer at IIT Patna. AI-Powered Web Creator, IoT Innovator. Building digital experiences that merge AI, design systems & IoT innovation.">
+  <meta name="keywords" content="Kanishk Dubey, IIT Patna, CSDA, IoT, Web Developer, AI, Portfolio">
+  <meta property="og:title" content="Kanishk Ashish Dubey · Digital Products">
+  <meta property="og:description" content="Student Developer at IIT Patna building digital experiences at the intersection of IoT, AI, and design.">
+  <title>Kanishk Ashish Dubey · Digital Products</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Hanken+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0d0d0d",
+            "glass-fill": "rgba(10, 10, 11, 0.7)",
+            "on-secondary-fixed-variant": "#454747",
+            "on-primary-fixed": "#191e00",
+            "tertiary": "#ffffff",
+            "on-error-container": "#ffdad6",
+            "inverse-primary": "#576500",
+            "on-secondary": "#2f3131",
+            "surface-dim": "#131313",
+            "tertiary-fixed-dim": "#acccd4",
+            "on-primary-container": "#5d6b00",
+            "on-tertiary-fixed-variant": "#2e4b52",
+            "surface-container-highest": "#353534",
+            "on-primary": "#2c3400",
+            "primary-container": "#d2f000",
+            "outline-variant": "#454932",
+            "secondary-container": "#454747",
+            "glass-stroke": "rgba(255, 255, 255, 0.08)",
+            "primary-fixed": "#d2f000",
+            "surface-bright": "#3a3939",
+            "surface-tint": "#b8d300",
+            "secondary-fixed-dim": "#c6c6c7",
+            "surface": "#131313",
+            "surface-variant": "#353534",
+            "surface-container": "#201f1f",
+            "surface-elevated": "#111110",
+            "on-tertiary-container": "#4b6971",
+            "on-primary-fixed-variant": "#414c00",
+            "surface-container-high": "#1e1e1e",
+            "secondary-fixed": "#e2e2e2",
+            "on-surface-variant": "#c6c9ab",
+            "inverse-on-surface": "#313030",
+            "secondary": "#c6c6c7",
+            "error": "#ffb4ab",
+            "on-surface": "#e5e2e1",
+            "tertiary-container": "#c8e8f1",
+            "tertiary-fixed": "#c8e8f1",
+            "on-error": "#690005",
+            "on-secondary-container": "#b4b5b5",
+            "primary": "#ffffff",
+            "on-tertiary-fixed": "#001f26",
+            "on-tertiary": "#16343b",
+            "primary-fixed-dim": "#b8d300",
+            "muted-text": "#666666",
+            "inverse-surface": "#e5e2e1",
+            "on-secondary-fixed": "#1a1c1c",
+            "surface-container-low": "#1c1b1b",
+            "error-container": "#93000a",
+            "on-background": "#e5e2e1",
+            "surface-container-lowest": "#0e0e0e",
+            "outline": "#909378"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "unit": "8px",
+            "margin-mobile": "20px",
+            "container-max": "1440px",
+            "gutter": "24px",
+            "margin-desktop": "80px"
+          },
+          fontFamily: {
+            "headline-lg": ["Hanken Grotesk"],
+            "display-xl-mobile": ["EB Garamond"],
+            "display-xl": ["EB Garamond"],
+            "mono-label": ["JetBrains Mono"],
+            "body-md": ["Hanken Grotesk"]
+          },
+          fontSize: {
+            "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "display-xl-mobile": ["48px", { lineHeight: "52px", letterSpacing: "-0.02em", fontWeight: "400" }],
+            "display-xl": ["84px", { lineHeight: "92px", letterSpacing: "-0.02em", fontWeight: "400" }],
+            "mono-label": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500" }],
+            "body-md": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* =============================================
+       ROOT & RESET
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+      --accent: #d2f000;
+      --accent-dim: #b8d300;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #ffffff;
+      font-family: 'Hanken Grotesk', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    ::selection {
+      background: #d2f000;
+      color: #0d0d0d;
+    }
+
+    /* =============================================
+       PAGE LOADER
+    ============================================= */
+    #page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0d0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 24px;
+      transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+    }
+
+    #page-loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05);
+    }
+
+    .loader-logo {
+      font-family: 'EB Garamond', serif;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      animation: loaderPulse 1.2s ease-in-out infinite;
+    }
+
+    .loader-bar-track {
+      width: 200px;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-bar {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.05s linear;
+    }
+
+    @keyframes loaderPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* =============================================
+       CUSTOM CURSOR
+    ============================================= */
+    #cursor-dot {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background 0.2s ease, width 0.2s ease, height 0.2s ease;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9997;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s var(--ease-out-expo),
+                  height 0.3s var(--ease-out-expo),
+                  background 0.3s ease,
+                  border-color 0.3s ease;
+    }
+
+    #cursor-ring.hovering {
+      width: 60px;
+      height: 60px;
+      background: rgba(210, 240, 0, 0.08);
+      border-color: var(--accent);
+    }
+
+    #cursor-ring.clicking {
+      width: 32px;
+      height: 32px;
+      background: rgba(210, 240, 0, 0.2);
+    }
+
+    /* =============================================
+       GRAIN TEXTURE
+    ============================================= */
+    .grain-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* =============================================
+       PARTICLES CANVAS
+    ============================================= */
+    #particles-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* =============================================
+       GRADIENT ORBS
+    ============================================= */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat 12s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(210,240,0,0.08) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(180,210,0,0.05) 0%, transparent 70%);
+      bottom: 100px; left: -50px;
+      animation-delay: -6s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    #top-nav {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 100;
+      background: rgba(13,13,13,0.8);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transform: translateY(0);
+      transition: transform 0.4s var(--ease-out-expo), background 0.3s ease;
+    }
+
+    #top-nav.nav-hidden {
+      transform: translateY(-100%);
+    }
+
+    .nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s var(--ease-out-expo);
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #fff;
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Mobile menu */
+    #mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+      transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+    }
+
+    #mobile-menu.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .mobile-nav-link {
+      font-family: 'EB Garamond', serif;
+      font-size: 48px;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav-link:hover { color: #fff; }
+
+    /* =============================================
+       SCROLL REVEAL
+    ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* =============================================
+       HERO SECTION
+    ============================================= */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 160px 80px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section { padding: 140px 20px 60px; }
+    }
+
+    /* Typing cursor */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 0.85em;
+      background: var(--accent);
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: blinkCursor 0.8s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Accent word */
+    .accent-word {
+      color: var(--accent);
+      font-style: italic;
+      position: relative;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: scrollBob 2s ease-in-out infinite;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+    }
+
+    @keyframes scrollBob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* =============================================
+       ANIMATED COUNTER
+    ============================================= */
+    .stat-number {
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-weight: 600;
+    }
+
+    /* =============================================
+       PROJECT CARDS
+    ============================================= */
+    .project-row {
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+
+    .project-row::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 0; height: 100%;
+      background: rgba(210, 240, 0, 0.03);
+      transition: width 0.5s var(--ease-out-expo);
+    }
+
+    .project-row:hover::before { width: 100%; }
+
+    .project-row .project-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .project-row:hover .project-num { color: var(--accent); }
+
+    /* Project hover image (desktop) */
+    .project-hover-img {
+      position: absolute;
+      right: 80px;
+      top: 50%;
+      transform: translateY(-50%) scale(0.92) rotate(-3deg);
+      width: 220px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+      z-index: 10;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .project-row:hover .project-hover-img {
+      opacity: 1;
+      transform: translateY(-50%) scale(1) rotate(-1deg);
+    }
+
+    /* =============================================
+       SKILLS CARDS
+    ============================================= */
+    .skill-card {
+      background: #0d0d0d;
+      padding: 48px;
+      transition: background 0.4s ease, transform 0.4s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(210,240,0,0.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .skill-card:hover::after { opacity: 1; }
+    .skill-card:hover { background: #111110; }
+
+    .skill-card .skill-icon {
+      transition: color 0.3s ease, transform 0.4s var(--ease-out-expo);
+    }
+
+    .skill-card:hover .skill-icon {
+      color: var(--accent) !important;
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    /* Progress bars */
+    .skill-bar-track {
+      width: 100%;
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+      margin-top: 8px;
+      overflow: hidden;
+      border-radius: 1px;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-dim));
+      width: 0%;
+      border-radius: 1px;
+      transition: width 1.2s var(--ease-out-expo);
+    }
+
+    /* =============================================
+       MAGNETIC BUTTONS
+    ============================================= */
+    .magnetic-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+
+    /* =============================================
+       CTA / CONTACT
+    ============================================= */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 16px 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: transparent;
+      cursor: none;
+      transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.35s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s var(--ease-out-expo);
+      z-index: 0;
+    }
+
+    .cta-btn:hover::before { transform: scaleX(1); }
+    .cta-btn:hover { color: #0d0d0d; border-color: var(--accent); }
+    .cta-btn span { position: relative; z-index: 1; }
+
+    .cta-btn .btn-arrow {
+      position: relative; z-index: 1;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+
+    .cta-btn:hover .btn-arrow { transform: translate(4px, -4px); }
+
+    /* =============================================
+       SECTION DIVIDER LABEL
+    ============================================= */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #444;
+      border-left: 2px solid var(--accent);
+      padding-left: 12px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    /* =============================================
+       MARQUEE / TICKER
+    ============================================= */
+    .marquee-wrapper {
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 0;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 64px;
+      animation: marqueeScroll 20s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      font-family: 'EB Garamond', serif;
+      font-size: 24px;
+      font-style: italic;
+      color: #222;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-shrink: 0;
+    }
+
+    .marquee-item .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* =============================================
+       CONTACT LINKS
+    ============================================= */
+    .contact-link {
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: padding-left 0.4s var(--ease-out-expo);
+    }
+
+    .contact-link:hover { padding-left: 12px; }
+
+    .contact-link .link-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .contact-link .link-value {
+      font-size: 18px;
+      color: #888;
+      transition: color 0.3s ease;
+    }
+
+    .contact-link:hover .link-value { color: var(--accent); }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =============================================
+       GLITCH TEXT (HERO)
+    ============================================= */
+    .glitch {
+      position: relative;
+    }
+
+    /* =============================================
+       HORIZONTAL RULE DECORATION
+    ============================================= */
+    .deco-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    }
+
+    /* =============================================
+       AVAILABILITY BADGE
+    ============================================= */
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      color: #444;
+      padding: 8px 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .availability-dot {
+      width: 6px; height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+    }
+
+    /* =============================================
+       MISC
+    ============================================= */
+    main { position: relative; z-index: 1; }
+
+    .border-accent { border-color: var(--accent); }
+
+    a { text-decoration: none; cursor: none; }
+
+    /* Hover line underline */
+    .underline-anim {
+      position: relative;
+      display: inline-block;
+    }
+
+    .underline-anim::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: currentColor;
+      transition: width 0.4s var(--ease-out-expo);
+    }
+
+    .underline-anim:hover::after { width: 100%; }
+
+    /* Tag chips */
+    .tech-tag {
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 4px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #444;
+      border-radius: 2px;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .project-row:hover .tech-tag {
+      border-color: rgba(210,240,0,0.2);
+      color: #777;
+    }
+
+    /* Stats grid */
+    .stat-cell {
+      padding: 32px;
+      transition: background 0.3s ease;
+    }
+
+    .stat-cell:hover { background: #111110; }
+
+    /* Scroll progress */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--accent);
+      z-index: 9999;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Page Loader -->
+  <div id="page-loader">
+    <div class="loader-logo">KAD</div>
+    <div class="loader-bar-track">
+      <div class="loader-bar" id="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Background Elements -->
+  <div class="grain-overlay"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu">
+    <a href="#work" class="mobile-nav-link" data-mobile-link>Work</a>
+    <a href="#about" class="mobile-nav-link" data-mobile-link>About</a>
+    <a href="#skills" class="mobile-nav-link" data-mobile-link>Skills</a>
+    <a href="#contact" class="mobile-nav-link" data-mobile-link>Contact</a>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="top-nav">
+    <div style="max-width:1440px;margin:0 auto;padding:0 80px;display:flex;justify-content:space-between;align-items:center;height:72px;">
+      <a href="/" style="font-family:'EB Garamond',serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.02em;">KAD</a>
+
+      <div class="hidden md:flex" style="gap:40px;align-items:center;">
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+
+      <a href="#contact" class="cta-btn hidden md:inline-flex magnetic-btn" id="nav-cta" style="padding:12px 24px;">
+        <span>Start a Project</span>
+        <span class="material-symbols-outlined btn-arrow" style="font-size:16px;font-variation-settings:'FILL' 0;">arrow_forward</span>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button id="menu-toggle" class="md:hidden" style="color:#fff;background:none;border:none;cursor:none;display:flex;align-items:center;justify-content:center;">
+        <span class="material-symbols-outlined" id="menu-icon">menu</span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ============================================
+         HERO SECTION
+    ============================================ -->
+    <section class="hero-section" id="home">
+      <!-- Background Visual -->
+      <div style="position:absolute;inset:0;z-index:0;opacity:0.12;pointer-events:none;mix-blend-mode:screen;background-image:url('https://lh3.googleusercontent.com/aida/ADBb0ugcH1ZXSw-lZvyBn_-VP74ZLWrkzWEQCEzoSadwR8tmJxAZibxpZ1HIqR46KJ2pybCkD9RAL9s8cO1aS_V9fPMc57fLBnhc559WkiF3eOQE0GV774PcJbEePairp3RwT6U0Zcj4MJycOolhNL4Fe_paVGflL701fuZMaN0wJ9JPKUMuUNaxyH8QCpsLGTR2KFjLq942wHRWOWuraXvIyvVWRduTVOfO29T3gZZHQsOAqVVQS9VXo1xqXAM');background-size:cover;background-position:center;"></div>
+
+      <div style="position:relative;z-index:1;max-width:1440px;margin:0 auto;width:100%;">
+        <!-- Availability Badge -->
+        <div class="reveal" style="margin-bottom:32px;">
+          <div class="availability-badge">
+            <div class="availability-dot"></div>
+            Student Developer · IIT Patna · CSDA Program
+          </div>
+        </div>
+
+        <!-- Main Heading -->
+        <div class="reveal reveal-delay-1" style="margin-bottom:32px;">
+          <h1 style="font-family:'EB Garamond',serif;font-size:clamp(48px,8vw,88px);line-height:1.05;letter-spacing:-0.02em;font-weight:400;max-width:900px;">
+            I build <br>
+            <span class="accent-word" id="typed-word">digital</span><span class="typing-cursor"></span>
+            <br>products.
+          </h1>
+        </div>
+
+        <!-- Subheading -->
+        <div class="reveal reveal-delay-2" style="margin-bottom:48px;">
+          <p style="font-family:'Hanken Grotesk',sans-serif;font-size:18px;color:#555;max-width:480px;line-height:1.6;">
+            AI-Powered Web Creator · IoT Innovator<br>
+            <span style="font-size:14px;color:#3a3a3a;margin-top:8px;display:block;">Building experiences that merge AI, design systems & IoT innovation.</span>
+          </p>
+        </div>
+
+        <!-- CTA Row -->
+        <div class="reveal reveal-delay-3" style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+          <a href="#contact" class="cta-btn magnetic-btn">
+            <span>Start a project</span>
+            <span class="material-symbols-outlined btn-arrow" style="font-size:18px;font-variation-settings:'FILL' 0;">arrow_forward</span>
+          </a>
+          <a href="#work" class="underline-anim" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#444;">
+            View work
+          </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="reveal reveal-delay-4" style="margin-top:96px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.06);display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px;">
+          <div>
+            <p style="font-family:'Hanken Grotesk',sans-serif;font-size:32px;font-weight:600;color:#fff;margin-bottom:4px;" class="stat-number" data-count="3" data-suffix="+">3+</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Projects Shipped</p>
+          </div>
+          <div>
+            <p style="font-family:'Hanken Grotesk',sans-serif;font-size:32px;font-weight:600;color:#fff;margin-bottom:4px;">IIT Patna</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Institution · CSDA</p>
+          </div>
+          <div>
+            <p style="font-family:'Hanken Grotesk',sans-serif;font-size:32px;font-weight:600;color:#fff;margin-bottom:4px;" class="stat-number" data-count="4" data-suffix="">4</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Disciplines Mastered</p>
+          </div>
+          <div>
+            <p style="font-family:'Hanken Grotesk',sans-serif;font-size:32px;font-weight:600;color:#fff;margin-bottom:4px;">2026</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Currently Active</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator hidden md:flex">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2a2a2a;writing-mode:vertical-rl;">Scroll</p>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         MARQUEE TICKER
+    ============================================ -->
+    <div class="marquee-wrapper reveal">
+      <div class="marquee-track" id="marquee-track">
+        <!-- Items duplicated for seamless loop -->
+        <div class="marquee-item"><span class="dot"></span>IoT Systems</div>
+        <div class="marquee-item"><span class="dot"></span>Web Development</div>
+        <div class="marquee-item"><span class="dot"></span>AI-Assisted Design</div>
+        <div class="marquee-item"><span class="dot"></span>Embedded Systems</div>
+        <div class="marquee-item"><span class="dot"></span>Dashboard UI</div>
+        <div class="marquee-item"><span class="dot"></span>Brand Identity</div>
+        <div class="marquee-item"><span class="dot"></span>Product Building</div>
+        <div class="marquee-item"><span class="dot"></span>Rapid Prototyping</div>
+        <!-- Duplicate for seamless scroll -->
+        <div class="marquee-item"><span class="dot"></span>IoT Systems</div>
+        <div class="marquee-item"><span class="dot"></span>Web Development</div>
+        <div class="marquee-item"><span class="dot"></span>AI-Assisted Design</div>
+        <div class="marquee-item"><span class="dot"></span>Embedded Systems</div>
+        <div class="marquee-item"><span class="dot"></span>Dashboard UI</div>
+        <div class="marquee-item"><span class="dot"></span>Brand Identity</div>
+        <div class="marquee-item"><span class="dot"></span>Product Building</div>
+        <div class="marquee-item"><span class="dot"></span>Rapid Prototyping</div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SELECTED WORK
+    ============================================ -->
+    <section id="work" style="padding:128px 80px;max-width:1440px;margin:0 auto;border-top:1px solid rgba(255,255,255,0.06);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px;flex-wrap:wrap;gap:16px;">
+        <div class="reveal">
+          <div class="section-label">Selected Work · 2025 — 2026</div>
+          <h2 style="font-family:'EB Garamond',serif;font-size:clamp(40px,6vw,72px);line-height:1.1;letter-spacing:-0.02em;font-weight:400;">
+            What I've <span class="accent-word">built</span>.
+          </h2>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <a href="#contact" class="underline-anim" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">All Projects →</a>
+        </div>
+      </div>
+
+      <!-- Project List -->
+      <div style="border-top:1px solid rgba(255,255,255,0.06);">
+
+        <!-- AgroBot Modal Overlay -->
+        <div id="agrobot-modal-overlay" onclick="if(event.target===this)closeAgrobotModal()">
+          <div id="agrobot-modal">
+            <button class="modal-close" onclick="closeAgrobotModal()">
+              <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 0;">close</span>
+            </button>
+            <span class="modal-tag">01 · IoT Project</span>
+            <h3 class="modal-title">AgroBot — Smart Irrigation System</h3>
+            <p class="modal-desc">Where would you like to go?</p>
+            <div class="modal-options">
+              <a href="https://github.com/kanishkdubey1946-del/agrobot-smart-irrigation-system" target="_blank" rel="noopener noreferrer" class="modal-option" onclick="closeAgrobotModal()">
+                <span class="material-symbols-outlined modal-option-icon" style="font-variation-settings:'FILL' 0;">code</span>
+                <div class="modal-option-text">
+                  <span class="modal-option-label">Source Code</span>
+                  <span class="modal-option-name">GitHub Repository</span>
+                </div>
+                <span class="material-symbols-outlined modal-option-arrow" style="font-variation-settings:'FILL' 0;">arrow_outward</span>
+              </a>
+              <a href="https://kanishkdubey1946-del-agobot-smart-i.vercel.app/login.html" target="_blank" rel="noopener noreferrer" class="modal-option" onclick="closeAgrobotModal()">
+                <span class="material-symbols-outlined modal-option-icon" style="font-variation-settings:'FILL' 0;">dashboard</span>
+                <div class="modal-option-text">
+                  <span class="modal-option-label">Live Product</span>
+                  <span class="modal-option-name">AgroBot Dashboard</span>
+                </div>
+                <span class="material-symbols-outlined modal-option-arrow" style="font-variation-settings:'FILL' 0;">arrow_outward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 01 -->
+        <div onclick="openAgrobotModal()" class="project-row reveal" style="display:block;padding:40px 16px;cursor:none;" id="proj-1">
+          <!-- Hover preview image placeholder -->
+          <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%) scale(0.9) rotate(-2deg);width:220px;height:140px;background:linear-gradient(135deg,#1a1a1a,#111);border-radius:4px;opacity:0;pointer-events:none;transition:opacity 0.4s ease,transform 0.4s ease;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;" class="project-hover-img hidden md:flex">
+            <div style="text-align:center;">
+              <span class="material-symbols-outlined" style="font-size:32px;color:rgba(210,240,0,0.4);font-variation-settings:'FILL' 0;">memory</span>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#333;margin-top:8px;letter-spacing:0.05em;">AGROBOT LIVE</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:40px 1fr auto auto auto;gap:16px;align-items:start;">
+            <div class="project-num" style="padding-top:4px;">01</div>
+            <div>
+              <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;transition:color 0.3s ease;">AgroBot — Smart Irrigation System</h3>
+              <p style="font-size:14px;color:#444;max-width:480px;line-height:1.6;margin-bottom:16px;">IoT soil moisture monitoring device. Real-time sensor data transmitted over Wi-Fi to a live web dashboard with weekly analytics and buzzer alerts.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span class="tech-tag">NodeMCU V3</span>
+                <span class="tech-tag">ESP8266</span>
+                <span class="tech-tag">Arduino</span>
+                <span class="tech-tag">Chart.js</span>
+              </div>
+            </div>
+            <div style="padding-top:4px;display:none;" class="md:block">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#2a2a2a;">IoT · Dashboard</p>
+            </div>
+            <div style="padding-top:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#2a2a2a;letter-spacing:0.05em;display:none;" class="md:block">2025</div>
+            <div style="padding-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:20px;color:#222;transition:color 0.3s ease,transform 0.3s ease;font-variation-settings:'FILL' 0;" id="arrow-1">arrow_outward</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 02 -->
+        <a href="highkey.html" class="project-row reveal reveal-delay-1" style="display:block;padding:40px 16px;cursor:none;" id="proj-2">
+          <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%) scale(0.9) rotate(-2deg);width:220px;height:140px;background:linear-gradient(135deg,#1a1500,#0f0f00);border-radius:4px;opacity:0;pointer-events:none;transition:opacity 0.4s ease,transform 0.4s ease;border:1px solid rgba(210,240,0,0.1);display:flex;align-items:center;justify-content:center;" class="project-hover-img hidden md:flex">
+            <div style="text-align:center;">
+              <span class="material-symbols-outlined" style="font-size:32px;color:rgba(210,240,0,0.4);font-variation-settings:'FILL' 0;">restaurant_menu</span>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#333;margin-top:8px;letter-spacing:0.05em;">ARANYA'S COVE</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:40px 1fr auto auto auto;gap:16px;align-items:start;">
+            <div class="project-num" style="padding-top:4px;">02</div>
+            <div>
+              <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;transition:color 0.3s ease;">Aranya's Cove — Restaurant Menu</h3>
+              <p style="font-size:14px;color:#444;max-width:480px;line-height:1.6;margin-bottom:16px;">Luxury print-ready menu card. Multi-page A4 spread with gold ornamental typography, black editorial aesthetic, veg/non-veg system, built entirely in HTML/CSS.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span class="tech-tag">HTML</span>
+                <span class="tech-tag">CSS</span>
+                <span class="tech-tag">Figma</span>
+                <span class="tech-tag">Editorial Design</span>
+              </div>
+            </div>
+            <div style="padding-top:4px;display:none;" class="md:block">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#2a2a2a;">Print · HTML</p>
+            </div>
+            <div style="padding-top:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#2a2a2a;letter-spacing:0.05em;display:none;" class="md:block">2026</div>
+            <div style="padding-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:20px;color:#222;transition:color 0.3s ease,transform 0.3s ease;font-variation-settings:'FILL' 0;" id="arrow-2">arrow_outward</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 03 -->
+        <a href="#" class="project-row reveal reveal-delay-2" style="display:block;padding:40px 16px;cursor:none;" id="proj-3">
+          <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%) scale(0.9) rotate(-2deg);width:220px;height:140px;background:linear-gradient(135deg,#0a0a14,#080814);border-radius:4px;opacity:0;pointer-events:none;transition:opacity 0.4s ease,transform 0.4s ease;border:1px solid rgba(100,100,255,0.1);display:flex;align-items:center;justify-content:center;" class="project-hover-img hidden md:flex">
+            <div style="text-align:center;">
+              <span class="material-symbols-outlined" style="font-size:32px;color:rgba(180,180,255,0.4);font-variation-settings:'FILL' 0;">psychology</span>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#333;margin-top:8px;letter-spacing:0.05em;">AI WORKFLOW</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:40px 1fr auto auto auto;gap:16px;align-items:start;">
+            <div class="project-num" style="padding-top:4px;">03</div>
+            <div>
+              <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;transition:color 0.3s ease;">Website Creation Work</h3>
+              <p style="font-size:14px;color:#444;max-width:480px;line-height:1.6;margin-bottom:16px;">Multiple websites built using a hybrid AI + manual workflow combining Claude, Google Stitch, Antigravity, and hand-coded HTML/CSS/JS.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span class="tech-tag">Claude AI</span>
+                <span class="tech-tag">Google Stitch</span>
+                <span class="tech-tag">HTML/CSS/JS</span>
+                <span class="tech-tag">Antigravity</span>
+              </div>
+            </div>
+            <div style="padding-top:4px;display:none;" class="md:block">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#2a2a2a;">Web · AI</p>
+            </div>
+            <div style="padding-top:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#2a2a2a;letter-spacing:0.05em;display:none;" class="md:block">2025–2026</div>
+            <div style="padding-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:20px;color:#222;transition:color 0.3s ease,transform 0.3s ease;font-variation-settings:'FILL' 0;" id="arrow-3">arrow_outward</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT
+    ============================================ -->
+    <section id="about" style="padding:128px 80px;border-top:1px solid rgba(255,255,255,0.06);">
+      <div style="max-width:1440px;margin:0 auto;">
+        <div class="reveal" style="margin-bottom:64px;">
+          <div class="section-label">About · Who I Am</div>
+          <h2 style="font-family:'EB Garamond',serif;font-size:clamp(40px,6vw,72px);line-height:1.1;letter-spacing:-0.02em;font-weight:400;">
+            The <span class="accent-word">mind</span> behind.
+          </h2>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="grid-responsive">
+          <!-- Bio -->
+          <div class="reveal" style="space-y:24px;">
+            <p style="font-size:18px;color:#555;line-height:1.7;margin-bottom:24px;">Student developer and creator at IIT Patna, pursuing the CSDA program. I build at the intersection of IoT hardware, AI-assisted design, and web development — from soil sensors to luxury restaurant menus to full-stack dashboards.</p>
+            <p style="font-size:16px;color:#444;line-height:1.7;margin-bottom:24px;">I believe in building things that are both technically solid and visually exceptional. Every project I ship is something I'm proud to put my name on.</p>
+            <div style="border-left:2px solid rgba(255,255,255,0.06);padding-left:20px;margin-top:40px;">
+              <p style="font-size:14px;color:#333;line-height:1.7;">Currently serving as <strong style="color:#555;font-weight:600;">Sub-coordinator of MECHx Club</strong> (Robotics Club) at IIT Patna — working hands-on with IoT systems, embedded hardware, and engineering automation.</p>
+            </div>
+
+            <div style="margin-top:48px;">
+              <a href="mailto:kanishkdubey1946@gmail.com" class="cta-btn magnetic-btn">
+                <span>Get In Touch</span>
+                <span class="material-symbols-outlined btn-arrow" style="font-size:16px;font-variation-settings:'FILL' 0;">mail</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="reveal reveal-delay-2">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);">
+              <div class="stat-cell">
+                <p style="font-family:'Hanken Grotesk',sans-serif;font-size:36px;font-weight:600;color:#fff;margin-bottom:8px;" class="stat-number" data-count="3" data-suffix="+">3+</p>
+                <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Projects Shipped</p>
+              </div>
+              <div class="stat-cell">
+                <p style="font-family:'Hanken Grotesk',sans-serif;font-size:36px;font-weight:600;color:#fff;margin-bottom:8px;">2026</p>
+                <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Currently Active</p>
+              </div>
+              <div class="stat-cell">
+                <p style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">IIT Patna</p>
+                <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Institution</p>
+              </div>
+              <div class="stat-cell">
+                <p style="font-family:'Hanken Grotesk',sans-serif;font-size:36px;font-weight:600;color:#fff;margin-bottom:8px;">CSDA</p>
+                <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#333;">Program</p>
+              </div>
+            </div>
+
+            <!-- Roles -->
+            <div style="margin-top:32px;padding:32px;border:1px solid rgba(255,255,255,0.06);background:#0a0a0a;">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#333;margin-bottom:16px;">Roles & Activities</p>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;"></div>
+                  <p style="font-size:14px;color:#555;">Sub-coordinator, MECHx Robotics Club · IITP</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:6px;height:6px;background:rgba(255,255,255,0.2);border-radius:50%;flex-shrink:0;"></div>
+                  <p style="font-size:14px;color:#555;">IoT Systems Developer · Hardware Prototyper</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:6px;height:6px;background:rgba(255,255,255,0.2);border-radius:50%;flex-shrink:0;"></div>
+                  <p style="font-size:14px;color:#555;">AI-Assisted Web Creator · Brand Designer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SKILLS / EXPERTISE
+    ============================================ -->
+    <section id="skills" style="padding:128px 80px;border-top:1px solid rgba(255,255,255,0.06);">
+      <div style="max-width:1440px;margin:0 auto;">
+        <div class="reveal" style="margin-bottom:64px;">
+          <div class="section-label">Skills · What I Work With</div>
+          <h2 style="font-family:'EB Garamond',serif;font-size:clamp(40px,6vw,72px);line-height:1.1;letter-spacing:-0.02em;font-weight:400;">
+            Four <span class="accent-word">disciplines.</span> One person.
+          </h2>
+        </div>
+
+        <!-- 4 Skill Cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);">
+
+          <!-- IoT -->
+          <div class="skill-card reveal" style="padding:48px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2a2a2a;">01</span>
+              <span class="material-symbols-outlined skill-icon" style="font-size:24px;color:#2a2a2a;font-variation-settings:'FILL' 0;">memory</span>
+            </div>
+            <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:24px;">IoT & Hardware</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">ESP8266 / NodeMCU</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="85"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Arduino IDE</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="80"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Embedded Systems</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="75"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Web Dev -->
+          <div class="skill-card reveal reveal-delay-1" style="padding:48px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2a2a2a;">02</span>
+              <span class="material-symbols-outlined skill-icon" style="font-size:24px;color:#2a2a2a;font-variation-settings:'FILL' 0;">code</span>
+            </div>
+            <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:24px;">Web Development</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">HTML / CSS</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="90"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">JavaScript</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="78"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Python / REST APIs</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="70"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Design -->
+          <div class="skill-card reveal reveal-delay-2" style="padding:48px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2a2a2a;">03</span>
+              <span class="material-symbols-outlined skill-icon" style="font-size:24px;color:#2a2a2a;font-variation-settings:'FILL' 0;">design_services</span>
+            </div>
+            <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:24px;">Design & Branding</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Figma / Google Stitch</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="82"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Typography / Editorial</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="88"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Brand Systems</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="75"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI -->
+          <div class="skill-card reveal reveal-delay-3" style="padding:48px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2a2a2a;">04</span>
+              <span class="material-symbols-outlined skill-icon" style="font-size:24px;color:#2a2a2a;font-variation-settings:'FILL' 0;">psychology</span>
+            </div>
+            <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:24px;">AI-Assisted Creation</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Claude / ChatGPT</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="92"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Prompt Engineering</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="88"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:13px;color:#444;">Automation / Make.com</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar" data-width="72"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tool Stack -->
+        <div class="reveal" style="margin-top:80px;">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;text-align:center;margin-bottom:32px;">Full Tool Stack</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+            <!-- All tools as animated tags -->
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Google Stitch</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Lovart</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Adobe Express</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Claude AI</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">ChatGPT</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">GitHub Copilot</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Perplexity AI</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Make.com</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">NodeMCU / ESP8266</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Arduino IDE</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Chart.js</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Vercel</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">GitHub Pages</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Figma</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Python</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Antigravity IDE</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Google Gemini</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">Google AI Studio</span>
+            <span style="border:1px solid rgba(255,255,255,0.06);padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#333;letter-spacing:0.05em;transition:border-color 0.3s ease,color 0.3s ease;cursor:default;" onmouseenter="this.style.borderColor='rgba(210,240,0,0.3)';this.style.color='#777';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='#333';">NotebookLM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT / FOOTER
+    ============================================ -->
+    <footer id="contact" style="border-top:1px solid rgba(255,255,255,0.06);position:relative;">
+      <!-- Background wash -->
+      <div style="position:absolute;inset:0;z-index:0;opacity:0.06;pointer-events:none;mix-blend-mode:screen;background-image:url('https://lh3.googleusercontent.com/aida/ADBb0ujAp6ybm1er3MjM9U4joCUI4kptOh4fq7yoBdwOoJobsbJJnDmLK6wHawyy5-_Pbs3pIXlbXXZZjXxvhSs2Tu9wqNmZbVhWtXLyYUGx9EefX8croDo4fs6nKjuEBMZ-008UdRcrb-HowEcOeJ4BhuBwXM-Boa5RyCantIFAUSrrwKRvTWpkzR56z6bOOGsGkMPnNuviPH94ZGtg4BNnBxuuvOy-T7b3TNTwT3ADH4mnUGdIGP-GIQ5cl3U');background-size:cover;background-position:center;filter:grayscale(100%);"></div>
+
+      <div style="max-width:1440px;margin:0 auto;padding:128px 80px;position:relative;z-index:1;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="grid-responsive">
+
+          <!-- Left: CTA -->
+          <div class="reveal">
+            <div class="section-label">Contact</div>
+            <h2 style="font-family:'EB Garamond',serif;font-size:clamp(40px,6vw,72px);line-height:1.1;letter-spacing:-0.02em;font-weight:400;margin-bottom:24px;">
+              Let's <span class="accent-word">talk.</span>
+            </h2>
+            <p style="font-size:16px;color:#444;line-height:1.7;max-width:400px;margin-bottom:40px;">
+              Open to collaborations, freelance projects, and interesting conversations. Direct line to Kanishk — no middlemen.
+            </p>
+            <a href="mailto:kanishkdubey1946@gmail.com" class="cta-btn magnetic-btn" style="font-size:13px;">
+              <span>Send an Email</span>
+              <span class="material-symbols-outlined btn-arrow" style="font-size:18px;font-variation-settings:'FILL' 0;">arrow_outward</span>
+            </a>
+          </div>
+
+          <!-- Right: Links -->
+          <div class="reveal reveal-delay-2">
+            <a href="mailto:kanishkdubey1946@gmail.com" class="contact-link" style="display:flex;flex-direction:column;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.06);transition:padding-left 0.4s ease;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-bottom:6px;">Email</span>
+              <span style="font-size:18px;color:#555;transition:color 0.3s ease;" class="contact-link-val">kanishkdubey1946@gmail.com</span>
+            </a>
+            <a href="https://github.com/kanishkdubey1946-del" target="_blank" rel="noopener" class="contact-link" style="display:flex;flex-direction:column;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.06);transition:padding-left 0.4s ease;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-bottom:6px;">GitHub</span>
+              <span style="font-size:18px;color:#555;transition:color 0.3s ease;" class="contact-link-val">github.com/kanishkdubey1946-del</span>
+            </a>
+            <a href="https://www.linkedin.com/in/kanishkdubey" target="_blank" rel="noopener" class="contact-link" style="display:flex;flex-direction:column;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.06);transition:padding-left 0.4s ease;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-bottom:6px;">LinkedIn</span>
+              <span style="font-size:18px;color:#555;transition:color 0.3s ease;" class="contact-link-val">linkedin.com/in/kanishkdubey</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div style="margin-top:96px;padding-top:32px;border-top:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+          <p style="font-family:'EB Garamond',serif;font-size:24px;font-weight:700;letter-spacing:-0.01em;color:#fff;">KAD</p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2a2a2a;">© 2026 Kanishk Ashish Dubey · All rights reserved</p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2a2a2a;">IIT Patna · CSDA</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- =============================================
+       MOBILE RESPONSIVE GRID
+  ============================================= -->
+  <style>
+    @media (max-width: 768px) {
+      .hero-section { padding: 140px 20px 80px !important; }
+      section[id] { padding-left: 20px !important; padding-right: 20px !important; }
+      footer[id] { padding-left: 20px !important; padding-right: 20px !important; }
+      .grid-responsive { grid-template-columns: 1fr !important; gap: 48px !important; }
+      .skill-card { padding: 32px !important; }
+      [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      .project-hover-img { display: none !important; }
+      [style*="grid-template-columns:40px 1fr auto auto auto"] { grid-template-columns: 30px 1fr auto !important; }
+    }
+    @media (max-width: 900px) {
+      .hero-section { padding: 140px 24px 80px !important; }
+    }
+  </style>
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+    // ============================================
+    // PAGE LOADER
+    // ============================================
+    const loader = document.getElementById('page-loader');
+    const loaderBar = document.getElementById('loader-bar');
+    let progress = 0;
+
+    const loadInterval = setInterval(() => {
+      progress += Math.random() * 15 + 5;
+      if (progress >= 100) {
+        progress = 100;
+        loaderBar.style.width = '100%';
+        clearInterval(loadInterval);
+        setTimeout(() => {
+          loader.classList.add('hidden');
+          document.body.style.overflow = '';
+          // Trigger hero reveals
+          document.querySelectorAll('.hero-section .reveal').forEach(el => {
+            el.classList.add('visible');
+          });
+        }, 300);
+      } else {
+        loaderBar.style.width = progress + '%';
+      }
+    }, 80);
+
+    document.body.style.overflow = 'hidden';
+
+    // ============================================
+    // CUSTOM CURSOR
+    // ============================================
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+    let isHovering = false;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+    });
+
+    // Smooth ring follow
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Hover states
+    document.querySelectorAll('a, button, .skill-card, .project-row, .cta-btn, .contact-link').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorRing.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering'));
+    });
+
+    document.addEventListener('mousedown', () => cursorRing.classList.add('clicking'));
+    document.addEventListener('mouseup', () => cursorRing.classList.remove('clicking'));
+
+    // ============================================
+    // SCROLL PROGRESS
+    // ============================================
+    const scrollBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      scrollBar.style.width = scrolled + '%';
+    }, { passive: true });
+
+    // ============================================
+    // SCROLL REVEAL
+    // ============================================
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ============================================
+    // SKILL BARS ANIMATION
+    // ============================================
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            setTimeout(() => { bar.style.width = width + '%'; }, 200);
+          });
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.skill-card').forEach(card => barObserver.observe(card));
+
+    // ============================================
+    // TYPING ANIMATION (HERO)
+    // ============================================
+    const words = ['digital', 'stunning', 'impactful', 'beautiful', 'intelligent'];
+    let wordIdx = 0, charIdx = 0, isDeleting = false;
+    const typedWord = document.getElementById('typed-word');
+
+    function typeLoop() {
+      if (!typedWord) return;
+      const currentWord = words[wordIdx];
+
+      if (isDeleting) {
+        typedWord.textContent = currentWord.substring(0, charIdx - 1);
+        charIdx--;
+      } else {
+        typedWord.textContent = currentWord.substring(0, charIdx + 1);
+        charIdx++;
+      }
+
+      let delay = isDeleting ? 60 : 100;
+
+      if (!isDeleting && charIdx === currentWord.length) {
+        delay = 1800;
+        isDeleting = true;
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+        delay = 400;
+      }
+
+      setTimeout(typeLoop, delay);
+    }
+
+    setTimeout(typeLoop, 2000);
+
+    // ============================================
+    // ANIMATED COUNTERS
+    // ============================================
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      let current = 0;
+      const duration = 1200;
+      const step = target / (duration / 16);
+
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+        }
+        el.textContent = Math.floor(current) + suffix;
+      }, 16);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number[data-count]').forEach(el => counterObserver.observe(el));
+
+    // ============================================
+    // NAVIGATION — ACTIVE SECTION HIGHLIGHT
+    // ============================================
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id], footer[id]');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(s => sectionObserver.observe(s));
+
+    // ============================================
+    // NAV HIDE ON SCROLL DOWN
+    // ============================================
+    let lastScroll = 0;
+    const nav = document.getElementById('top-nav');
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll && currentScroll > 200) {
+        nav.classList.add('nav-hidden');
+      } else {
+        nav.classList.remove('nav-hidden');
+      }
+      lastScroll = currentScroll;
+    }, { passive: true });
+
+    // ============================================
+    // MOBILE MENU
+    // ============================================
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuIcon = document.getElementById('menu-icon');
+    let menuOpen = false;
+
+    menuToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      menuIcon.textContent = menuOpen ? 'close' : 'menu';
+      document.body.style.overflow = menuOpen ? 'hidden' : '';
+    });
+
+    document.querySelectorAll('[data-mobile-link]').forEach(link => {
+      link.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu.classList.remove('open');
+        menuIcon.textContent = 'menu';
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ============================================
+    // PROJECT ROW HOVER — ARROW ANIMATION
+    // ============================================
+    document.querySelectorAll('.project-row').forEach((row, i) => {
+      const arrow = row.querySelector('.material-symbols-outlined');
+      if (!arrow) return;
+      row.addEventListener('mouseenter', () => {
+        arrow.style.color = '#d2f000';
+        arrow.style.transform = 'translate(4px, -4px)';
+      });
+      row.addEventListener('mouseleave', () => {
+        arrow.style.color = '#222';
+        arrow.style.transform = 'translate(0,0)';
+      });
+    });
+
+    // ============================================
+    // SKILL CARD RADIAL GRADIENT FOLLOW
+    // ============================================
+    document.querySelectorAll('.skill-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--x', x + '%');
+        card.style.setProperty('--y', y + '%');
+      });
+    });
+
+    // ============================================
+    // CONTACT LINKS HOVER
+    // ============================================
+    document.querySelectorAll('.contact-link').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        link.style.paddingLeft = '12px';
+        const val = link.querySelector('.contact-link-val');
+        if (val) val.style.color = '#d2f000';
+      });
+      link.addEventListener('mouseleave', () => {
+        link.style.paddingLeft = '0';
+        const val = link.querySelector('.contact-link-val');
+        if (val) val.style.color = '#555';
+      });
+    });
+
+    // ============================================
+    // MAGNETIC BUTTONS
+    // ============================================
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+        btn.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1)';
+      });
+    });
+
+    // ============================================
+    // PARTICLES
+    // ============================================
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const PARTICLE_COUNT = 60;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1.5 + 0.3,
+        opacity: Math.random() * 0.4 + 0.05,
+        isAccent: Math.random() < 0.15
+      });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        // Draw dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        if (p.isAccent) {
+          ctx.fillStyle = `rgba(210,240,0,${p.opacity})`;
+        } else {
+          ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+        }
+        ctx.fill();
+
+        // Draw connections
+        particles.slice(i + 1).forEach(p2 => {
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            const alpha = (1 - dist / 120) * 0.06;
+            ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+
+    // ============================================
+    // AGROBOT MODAL
+    // ============================================
+    function openAgrobotModal() {
+      document.getElementById('agrobot-modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAgrobotModal() {
+      document.getElementById('agrobot-modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAgrobotModal();
+    });
+    // Make modal options work with cursor
+    document.querySelectorAll('.modal-option').forEach(el => {
+      el.addEventListener('mouseenter', () => document.getElementById('cursor-ring').classList.add('hovering'));
+      el.addEventListener('mouseleave', () => document.getElementById('cursor-ring').classList.remove('hovering'));
+    });
+
+    // ============================================
+    // SMOOTH ANCHOR SCROLL
+    // ============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
