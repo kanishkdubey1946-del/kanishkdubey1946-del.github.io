@@ -1,0 +1,336 @@
+{
+  "person": {
+    "name": "Kanishk Dubey",
+    "intro": "I build at the intersection of AI, connected hardware, and the web. Turning curiosity into systems people can actually use.",
+    "bio": "I’m Kanishk, a BS–MS student in Computer Science & Data Analytics at IIT Patna. I work across AI-assisted products, IoT prototypes, and research — following a problem from the first question to a working system.",
+    "location": "Nagpur, India",
+    "email": "kanishkdubey1946@gmail.com",
+    "github": "https://github.com/kanishkdubey1946-del",
+    "linkedin": "https://www.linkedin.com/in/kanishkdubey-iitp/",
+    "resume": "/files/Kanishk-Dubey-Resume.docx"
+  },
+  "projects": [
+    {
+      "slug": "esc",
+      "title": "ESC",
+      "subtitle": "A clearer next step in learning.",
+      "category": "AI systems",
+      "year": "2026",
+      "status": "Working prototype",
+      "published": true,
+      "featured": true,
+      "summary": "An adaptive study companion connecting questions, specialist help, practice, and personalised study plans in one workspace.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "FastAPI",
+        "Multi-agent AI"
+      ],
+      "repo": "https://github.com/kanishkdubey1946-del/ESC",
+      "demo": "https://esc-study-companion-web.onrender.com",
+      "image": "/media/esc.webp",
+      "imageAlt": "ESC homepage showing its learning companion and specialist workflow",
+      "visual": "esc",
+      "role": "Product development & adaptive learning workflows",
+      "team": "Hack & Jam project",
+      "upstream": "",
+      "recognition": "Runner-up · Hack & Jam 2026",
+      "problem": "Studying often means switching between a chatbot, notes, practice questions, and a planner. ESC brings those activities into a connected flow, so a question leads to useful practice and a plan for what comes next.",
+      "approach": "I worked on the personalised learning experience: combining performance signals with topic-level guidance and relevant resources. The application includes conversational assistance, a specialist studio, and an adaptive learning workspace.",
+      "decisions": [
+        {
+          "title": "Keep the conversation central",
+          "body": "Chat is the quickest way to ask for help. Structured workspaces provide a separate place to inspect plans, practice, and recorded progress."
+        },
+        {
+          "title": "Connect practice to planning",
+          "body": "Assessment results inform topic mastery and the next study plan. Deterministic scoring keeps recorded performance separate from generated explanations."
+        },
+        {
+          "title": "Make sources visible",
+          "body": "Uploaded material and web research provide context for specialist responses. Source visibility supports review; it is not a guarantee of accuracy."
+        }
+      ],
+      "architecture": [
+        "Question + sources",
+        "Specialist workflow",
+        "Explanation + practice",
+        "Study plan"
+      ],
+      "outcome": "Runner-up at Hack & Jam, Anjuman College of Engineering and Technology, on 2 August 2026. The event’s community partner was GDG Nagpur.",
+      "limitations": "Actively developed prototype. A September local audit found live generation unavailable in that environment; provider reliability and complete export testing remain ongoing work.",
+      "next": "Connect the source library, practice tools, and saved plans more consistently, and improve reliable generation."
+    },
+    {
+      "slug": "agrobot",
+      "title": "AgroBot",
+      "subtitle": "A little hardware. A closer look at soil.",
+      "category": "Connected hardware",
+      "year": "2025–26",
+      "status": "IoT prototype",
+      "published": true,
+      "featured": true,
+      "summary": "A compact soil-monitoring device with Wi-Fi telemetry, a live dashboard, and local alerts that keep working offline.",
+      "tags": [
+        "NodeMCU",
+        "ESP8266",
+        "Sensors",
+        "Chart.js"
+      ],
+      "repo": "https://github.com/kanishkdubey1946-del/agrobot-smart-irrigation-system",
+      "demo": "",
+      "image": "",
+      "imageAlt": "",
+      "visual": "agrobot",
+      "role": "Hardware design, firmware & dashboard",
+      "team": "IIT Patna · Capstone-I",
+      "upstream": "",
+      "recognition": "",
+      "problem": "Soil conditions are difficult to track remotely. AgroBot explores a simple way to sense moisture, signal unsafe conditions locally, and bring readings to a dashboard.",
+      "approach": "I designed and built a compact prototype around a NodeMCU V3, resistive soil-moisture sensor, and piezoelectric buzzer. HTTP telemetry pairs current values with a seven-day trend view.",
+      "decisions": [
+        {
+          "title": "Simplify the board architecture",
+          "body": "Moving from Arduino Uno plus a separate ESP8266 to NodeMCU combines sensing and Wi-Fi on one board."
+        },
+        {
+          "title": "Keep an offline feedback path",
+          "body": "The buzzer signals dry or waterlogged conditions independently of the network."
+        },
+        {
+          "title": "Show change over time",
+          "body": "A current reading gives immediate context. Historical readings show how conditions evolve."
+        }
+      ],
+      "architecture": [
+        "Moisture sensor",
+        "NodeMCU + alerts",
+        "HTTP telemetry",
+        "Web dashboard"
+      ],
+      "outcome": "Built as a Capstone-I prototype at IIT Patna. My résumé documents hardware, enclosure, telemetry, and dashboard work.",
+      "limitations": "The public README marks server/database integration and the final end-to-end test as pending. No measured farm deployment or water-saving result is claimed.",
+      "next": "Validate the complete data path and compare sensor behaviour across soil conditions before field deployment."
+    },
+    {
+      "slug": "drishti",
+      "title": "Drishti",
+      "subtitle": "Make every mark traceable.",
+      "category": "Research",
+      "year": "2025–26",
+      "status": "Manuscript in preparation",
+      "published": true,
+      "featured": true,
+      "summary": "Human-in-the-loop examination evaluation, connecting answer-sheet capture, assisted marking, moderation, and an auditable review trail.",
+      "tags": [
+        "Research",
+        "Human-in-the-loop AI",
+        "ESP32-S3 CAM"
+      ],
+      "repo": "https://github.com/kanishkdubey1946-del/drishti-osm-platform",
+      "demo": "",
+      "image": "",
+      "imageAlt": "",
+      "visual": "drishti",
+      "role": "Research writing & capture-system architecture",
+      "team": "Team Shiny · IIT Patna",
+      "upstream": "https://github.com/ashwikbathla2-pixel/drishti-osm-platform",
+      "recognition": "",
+      "problem": "Answer evaluation needs readable capture, correct script-to-record mapping, and a way to review differences between human and AI assessments.",
+      "approach": "My work covers the research manuscript, literature review, cost modelling, and an ESP32-S3 CAM capture-rig architecture. The optical design considers lens calibration, lighting, and capture quality before evaluation.",
+      "decisions": [
+        {
+          "title": "Keep humans in the decision loop",
+          "body": "Assisted evaluation is separate from final judgement. Moderation makes disagreements visible and preserves a review trail."
+        },
+        {
+          "title": "Start with capture quality",
+          "body": "Unreadable input undermines every later step. The capture design considers optical budget, calibration, and dual-LED illumination."
+        },
+        {
+          "title": "Separate modelling from validation",
+          "body": "Analytical estimates guide the prototype but require empirical evaluation before operational claims."
+        }
+      ],
+      "architecture": [
+        "Capture + intake",
+        "Assisted evaluation",
+        "Human moderation",
+        "Audit trail"
+      ],
+      "outcome": "Research manuscript in preparation, with a documented capture architecture and evaluation workflow. Team and upstream credit are preserved.",
+      "limitations": "Not a published peer-reviewed paper or an endorsed examination-board system. Evaluation accuracy, cost assumptions, and hardware performance require further validation.",
+      "next": "Evaluate capture quality and review outcomes using an appropriate, permissioned test dataset."
+    },
+    {
+      "slug": "comet",
+      "title": "COMET",
+      "subtitle": "Specialists, working together.",
+      "category": "AI systems",
+      "year": "2026",
+      "status": "Prototype",
+      "published": true,
+      "featured": false,
+      "summary": "A multi-agent research and planning workspace coordinating specialist tasks, API integrations, evidence, and structured reports.",
+      "tags": [
+        "Python",
+        "FastAPI",
+        "React",
+        "Workflow automation"
+      ],
+      "repo": "https://github.com/kanishkdubey1946-del/COMET-cmd",
+      "demo": "",
+      "image": "",
+      "imageAlt": "",
+      "visual": "comet",
+      "role": "Agent orchestration & API workflows",
+      "team": "Collaborative project",
+      "upstream": "https://github.com/raunakiitp/COMET",
+      "recognition": "",
+      "problem": "Research and planning cross tools and specialisms. A useful agent system coordinates those handoffs while retaining context.",
+      "approach": "I worked on an orchestration layer, API adapters, retry logic, and monitoring hooks. The workspace brings together business and student workflows, uploaded sources, and specialist chat.",
+      "decisions": [
+        {
+          "title": "Give each agent a responsibility",
+          "body": "Specialist roles make intermediate outputs easier to inspect and connect."
+        },
+        {
+          "title": "Treat failure as part of the workflow",
+          "body": "Retries and monitoring help identify where external calls or agent steps fail."
+        }
+      ],
+      "architecture": [
+        "Task + evidence",
+        "Orchestrator",
+        "Specialist agents",
+        "Structured report"
+      ],
+      "outcome": "An orchestration prototype demonstrated in a live pipeline, as documented in my résumé.",
+      "limitations": "A fork of raunakiitp/COMET. Autonomous operation is bounded by supported tools and provider availability.",
+      "next": "Make recovery and the relationship between sources, agent outputs, and saved reports easier to follow."
+    },
+    {
+      "slug": "catalyst",
+      "title": "Catalyst",
+      "subtitle": "Exploring computational discovery.",
+      "category": "Research",
+      "year": "2025–26",
+      "status": "Collaborative research",
+      "published": true,
+      "featured": false,
+      "summary": "Quantum-computing exploration and an evolving materials-discovery workspace, with my contribution distinguished from the broader project.",
+      "tags": [
+        "Python",
+        "Quantum computing",
+        "VQE",
+        "Materials research"
+      ],
+      "repo": "https://github.com/kanishkdubey1946-del/catalyst",
+      "demo": "",
+      "image": "",
+      "imageAlt": "",
+      "visual": "catalyst",
+      "role": "Contributor · quantum VQE exploration",
+      "team": "Catalyst team",
+      "upstream": "https://github.com/Rtx09x/catalyst",
+      "recognition": "Finalist · RIT Quant-A-Thon 2026",
+      "problem": "Computational methods help explore molecular and material behaviour. Different revisions of a project can address different parts of that discovery process.",
+      "approach": "My résumé describes contributing to Variational Quantum Eigensolver experiments for approximating molecular ground-state energies. The current public repository describes a broader AI-assisted materials-discovery workspace.",
+      "decisions": [
+        {
+          "title": "Keep research scope explicit",
+          "body": "VQE exploration and the current materials workspace are related contexts, not interchangeable descriptions."
+        },
+        {
+          "title": "Preserve provenance",
+          "body": "My individual contribution is described separately from the complete capabilities of the team repository."
+        }
+      ],
+      "architecture": [
+        "Research question",
+        "Candidate method",
+        "Computation",
+        "Inspect results"
+      ],
+      "outcome": "Finalist at RIT Quant-A-Thon 2026, held on 29–30 July, as recorded in my résumé.",
+      "limitations": "No quantum advantage, validated scientific discovery, or performance beyond classical limits is claimed.",
+      "next": "Document experimental settings and reproducible results alongside the appropriate project revision."
+    }
+  ],
+  "experience": [
+    {
+      "title": "Freelance AI-Augmented Web Developer",
+      "organization": "Self-employed · Remote",
+      "period": "Feb 2026 — Present",
+      "body": "Scope, prototype, review, and deliver client websites. My workflow connects AI-assisted development with debugging, accessibility checks, deployment, and clear handover documentation."
+    },
+    {
+      "title": "Sub-Coordinator",
+      "organization": "MechX Club · IIT Patna",
+      "period": "2025 — 2026",
+      "body": "Organised workshops on prompt engineering, AI-assisted development, Git, and CI/CD, and mentored juniors through rapid prototyping workflows."
+    }
+  ],
+  "education": {
+    "title": "BS–MS, Computer Science & Data Analytics",
+    "organization": "Indian Institute of Technology Patna",
+    "period": "2025 — 2030 (expected)",
+    "details": "CPI: 9.00 in Semester 1 · 8.96 in Semester 2"
+  },
+  "recognition": [
+    {
+      "title": "Hack & Jam",
+      "result": "Runner-up",
+      "date": "02 AUG 2026",
+      "body": "ESC · Anjuman College of Engineering and Technology. Community partner: GDG Nagpur."
+    },
+    {
+      "title": "RIT Quant-A-Thon",
+      "result": "Finalist",
+      "date": "29–30 JUL 2026",
+      "body": "A 36-hour international hackathon sponsored by IBM, as documented in my résumé."
+    },
+    {
+      "title": "IWSA research contest",
+      "result": "1st place · Nagpur chapter",
+      "date": "DEC 2021",
+      "body": "Co-authored a study on social media and family communication. Covered in Lokmat Times on 18 December 2021."
+    },
+    {
+      "title": "National Children Science Congress",
+      "result": "State-level selection",
+      "date": "DEC 2021",
+      "body": "Selected to represent the Vidarbha region at the state-level forum in Pune."
+    }
+  ],
+  "skills": [
+    {
+      "title": "AI & orchestration",
+      "items": [
+        "Multi-agent workflows",
+        "Prompt engineering",
+        "API integrations",
+        "Model-assisted development"
+      ]
+    },
+    {
+      "title": "Web & delivery",
+      "items": [
+        "JavaScript · HTML · CSS",
+        "React workflows",
+        "Figma · Adobe tools",
+        "Vercel · Firebase · Supabase"
+      ]
+    },
+    {
+      "title": "Hardware & research",
+      "items": [
+        "NodeMCU · ESP32-S3",
+        "Sensor telemetry",
+        "Academic writing",
+        "Optical & cost modelling"
+      ]
+    }
+  ],
+  "writing": []
+}

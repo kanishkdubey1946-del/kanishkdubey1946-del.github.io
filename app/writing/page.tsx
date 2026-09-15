@@ -1,0 +1,5 @@
+import Link from 'next/link';
+import { ArrowUpRight, PencilLine } from 'lucide-react';
+import { notes } from '@/lib/content';
+export const metadata={title:'Notes',description:'Field notes on building, experiments and lessons learned.'};
+export default function Writing(){return <main id="main" className="section-pad"><header className="page-intro"><div className="eyebrow">NOTES FROM THE WORKBENCH</div><h1>Thinking<br/><em>out loud.</em></h1><p>A space for the questions, experiments, and lessons that don’t fit inside a project card.</p></header>{notes.length?<div className="notes-list">{notes.map(n=><Link key={n.slug} href={`/writing/${n.slug}`}><span className="eyebrow">{n.date}</span><h2>{n.title}</h2><p>{n.summary}</p><ArrowUpRight/></Link>)}</div>:<div className="notes-empty"><PencilLine size={35} strokeWidth={1}/><h2>The notebook is open.</h2><p>No published notes yet. For now, the project stories are the best place to see how I think and build.</p><Link href="/projects" className="text-link">Explore the work <ArrowUpRight size={18}/></Link></div>}</main>}
