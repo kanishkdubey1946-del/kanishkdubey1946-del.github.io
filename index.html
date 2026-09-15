@@ -17,7 +17,7 @@
     ::selection{background:var(--copper);color:var(--ink)}.nav{color:var(--paper)}.contact-link{border-color:#75c7b966}.hero-shade{background:linear-gradient(90deg,#080d14f7 0%,#080d14a6 42%,transparent 72%),linear-gradient(0deg,#080d14d6,transparent 35%)}.eyebrow,.hero p,.hero-label,.hero-bottom,.ticker,.meta,.card p,.case-body,.experience p,.award p,.skills ul,.experience .meta,.award .meta{color:var(--muted)}.button{border-color:var(--copper);background:var(--copper);color:var(--ink)}.button:hover{background:var(--amber)}.ticker i{color:var(--signal)}.visual{background:var(--mineral)}.diagram{color:var(--on-mineral)}.diagram>div{border-color:#24332666}.diagram i{background:#24332666}.tags span{border-color:#75c7b952;color:#c2cfcc}.warm{background:var(--mineral);color:var(--on-mineral)}.warm .eyebrow{color:#4b675a}.warm .section-top p,.warm .bio{color:#34483d}.education{border-color:#708477}.education small{color:#50685b}.case-body a{color:var(--copper)}.email{border-color:#6c8377}.footer{border-color:#899b91;color:#50685b}.footer strong{color:var(--on-mineral)}.motion{background:#080d14eb;color:var(--paper);border-color:#75c7b966}
     @media(max-width:760px){.hero-shade{background:linear-gradient(90deg,#080d14ed,#080d1480 75%,transparent),linear-gradient(0deg,#080d14df,transparent 50%)}}
   </style>
-  <link rel="stylesheet" href="public/scroll-motion.css?v=orbit-v2">
+  <link rel="stylesheet" href="public/scroll-motion.css?v=orbit-v3">
 </head>
 <body>
   <a class="skip" href="#work">Skip to work</a>
@@ -45,6 +45,6 @@
     motion.addEventListener('click',()=>{const next=motion.getAttribute('aria-pressed')!=='true';localStorage.setItem('portfolio-reduced-motion',next);apply(next)});
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.card,.award,.experience article,.skills article').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.style.transition='opacity .6s ease,transform .6s ease';e.target.style.opacity='1';e.target.style.transform='translateY(0)'}}),{threshold:.12}).observe(el)})}
   </script>
-  <script src="public/scroll-motion.js?v=orbit-v2" defer></script>
+  <script src="public/scroll-motion.js?v=orbit-v3" defer></script>
 </body>
 </html>

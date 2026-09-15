@@ -26,7 +26,7 @@
 .spiral-card{position:absolute;left:50%;top:50%;width:clamp(280px,26vw,370px);min-height:390px;overflow:hidden;border:1px solid #75c7b952;background:#080d14f2;backdrop-filter:blur(14px);transform-style:preserve-3d;will-change:transform,opacity;box-shadow:0 28px 80px #0008;transition:border-color .25s,background .25s,box-shadow .25s}
 .spiral-card:hover{border-color:var(--copper);background:#162230f7;box-shadow:0 36px 100px #000a,0 0 0 1px #e96b3f2e}
 .spiral-card-media{position:relative;height:205px;overflow:hidden;border-bottom:1px solid #75c7b936;background:#081019}
-.spiral-card-image{position:absolute;inset:-2%;display:block;background:url('/media/practice-orbit-v1.webp') no-repeat;background-size:500% 100%;filter:saturate(.9) contrast(1.05);transform:scale(1.03);transition:transform .55s cubic-bezier(.2,.75,.25,1),filter .4s ease}
+.spiral-card-image{position:absolute;inset:-2%;display:block;background:url('./media/practice-orbit-v1.webp') no-repeat;background-size:500% 100%;filter:saturate(.9) contrast(1.05);transform:scale(1.03);transition:transform .55s cubic-bezier(.2,.75,.25,1),filter .4s ease}
 .spiral-image-1{background-position:0 50%}.spiral-image-2{background-position:25% 50%}.spiral-image-3{background-position:50% 50%}.spiral-image-4{background-position:75% 50%}.spiral-image-5{background-position:100% 50%}
 .spiral-card-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,#080d14 105%);pointer-events:none}
 .spiral-card-media b{position:absolute;right:18px;top:14px;z-index:2;color:var(--paper);font:11px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em;text-shadow:0 2px 16px #000}
