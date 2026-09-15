@@ -18,16 +18,15 @@
     const mediaVisual = mediaSection?.querySelector('.diagram, img');
     const mediaFill = mediaSection?.querySelector('.scroll-media-fill');
     const mediaValue = mediaSection?.querySelector('.scroll-media-value');
-    const tedySection = document.querySelector('.tedy-scroll');
-    const tedyOrbit = tedySection?.querySelector('.tedy-orbit');
-    const tedyLabels = [...document.querySelectorAll('.tedy-core, .tedy-satellite')];
-    const tedySteps = [...document.querySelectorAll('.tedy-step')];
     const spiralSection = document.querySelector('.spiral-scroll');
     const spiralCards = [...document.querySelectorAll('.spiral-card')];
+    const spiralDots = [...document.querySelectorAll('.spiral-progress i')];
     const horizontalSection = document.querySelector('.horizontal-scroll-section');
     const horizontalTrack = horizontalSection?.querySelector('.horizontal-track');
     const revealBlocks = [...document.querySelectorAll('.text-reveal')];
     let frame = 0;
+    let spiralCurrent = 0;
+    let spiralStarted = false;
 
     revealBlocks.forEach(block => {
       if (block.dataset.revealReady) return;
@@ -55,19 +54,57 @@
     function resetMotion() {
       layers.forEach(layer => { layer.style.transform = ''; });
       if (ticker) ticker.style.transform = '';
-      [feyVisual, zoomVisual, mediaVisual, tedyOrbit, horizontalTrack].forEach(node => { if (node) node.style.transform = ''; });
-      tedyLabels.forEach(label => { label.style.transform = ''; });
+      [feyVisual, zoomVisual, mediaVisual, horizontalTrack].forEach(node => { if (node) node.style.transform = ''; });
       if (mediaVisual) mediaVisual.style.clipPath = '';
       if (mediaFill) mediaFill.style.transform = 'scaleX(1)';
       if (mediaValue) mediaValue.textContent = '100%';
       revealWords.forEach(({ words }) => words.forEach(word => word.classList.add('is-revealed')));
-      tedySteps.forEach((step, index) => step.classList.toggle('is-active', index === tedySteps.length - 1));
       spiralCards.forEach(card => { card.style.transform = ''; card.style.opacity = '1'; card.style.zIndex = ''; });
+      spiralDots.forEach((dot, index) => dot.classList.toggle('is-active', index === 0));
+    }
+
+    function renderSpiral() {
+      if (!spiralSection || !spiralCards.length) return false;
+      const target = stickyProgress(spiralSection);
+      if (!spiralStarted) { spiralCurrent = target; spiralStarted = true; }
+      const difference = target - spiralCurrent;
+      spiralCurrent += difference * .14;
+      if (Math.abs(difference) < .0002) spiralCurrent = target;
+
+      const travel = spiralCurrent * (spiralCards.length - 1);
+      const spacing = innerWidth > 900 ? Math.min(470, innerWidth * .34) : innerWidth * .84;
+      spiralCards.forEach((card, index) => {
+        const offset = index - travel;
+        const distance = Math.abs(offset);
+        const x = offset * spacing;
+        const y = Math.min(70, distance * 30);
+        const z = -Math.min(360, distance * 150);
+        const rotate = clamp(offset, -2, 2) * -12;
+        const scale = Math.max(.76, 1 - distance * .1);
+        card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateY(${rotate}deg) scale(${scale})`;
+        card.style.opacity = String(Math.max(.12, 1 - distance * .44));
+        card.style.zIndex = String(100 - Math.round(distance * 10));
+      });
+      const active = Math.min(spiralCards.length - 1, Math.round(travel));
+      spiralDots.forEach((dot, index) => dot.classList.toggle('is-active', index === active));
+      return Math.abs(difference) > .0002;
     }
 
     function render() {
       frame = 0;
-      if (reduced() || innerWidth <= 900) { resetMotion(); return; }
+      if (reduced()) { resetMotion(); return; }
+
+      if (innerWidth <= 900) {
+        layers.forEach(layer => { layer.style.transform = ''; });
+        [feyVisual, zoomVisual, mediaVisual, horizontalTrack].forEach(node => { if (node) node.style.transform = ''; });
+        if (mediaVisual) mediaVisual.style.clipPath = '';
+        if (mediaFill) mediaFill.style.transform = 'scaleX(1)';
+        if (mediaValue) mediaValue.textContent = '100%';
+        revealWords.forEach(({ words }) => words.forEach(word => word.classList.add('is-revealed')));
+        const keepDrawing = renderSpiral();
+        if (keepDrawing) frame = requestAnimationFrame(render);
+        return;
+      }
 
       const heroRect = hero.getBoundingClientRect();
       const heroP = clamp(-heroRect.top / Math.max(1, heroRect.height));
@@ -108,34 +145,15 @@
         words.forEach((word, index) => word.classList.toggle('is-revealed', index < count));
       });
 
-      if (tedySection && tedyOrbit) {
-        const p = stickyProgress(tedySection);
-        tedyOrbit.style.transform = `rotate(${p * 300}deg) rotateX(${lerp(64, 48, p)}deg) scale(${lerp(.82, 1.04, Math.sin(p * Math.PI))})`;
-        tedyLabels.forEach(label => { label.style.transform = `rotate(${-p * 300}deg)`; });
-        const active = Math.min(tedySteps.length - 1, Math.floor(p * tedySteps.length));
-        tedySteps.forEach((step, index) => step.classList.toggle('is-active', index === active));
-      }
-
-      if (spiralSection && spiralCards.length) {
-        const p = stickyProgress(spiralSection);
-        spiralCards.forEach((card, index) => {
-          const angle = (index / spiralCards.length) * Math.PI * 2 + p * Math.PI * 2.35;
-          const radius = lerp(310, 225, p);
-          const x = Math.cos(angle) * radius;
-          const y = Math.sin(angle) * radius * .38 + (index - 2) * 22;
-          const z = Math.sin(angle) * 260;
-          const scale = lerp(.78, 1.08, (z + 260) / 520);
-          card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateY(${(-angle * 180 / Math.PI) + 90}deg) scale(${scale})`;
-          card.style.opacity = String(lerp(.38, 1, (z + 260) / 520));
-          card.style.zIndex = String(Math.round(z + 300));
-        });
-      }
+      const keepDrawingSpiral = renderSpiral();
 
       if (horizontalSection && horizontalTrack) {
         const p = stickyProgress(horizontalSection);
         const available = Math.max(0, horizontalTrack.scrollWidth - (innerWidth - parseFloat(getComputedStyle(horizontalSection).paddingLeft || 0)));
         horizontalTrack.style.transform = `translate3d(${-available * p}px,0,0)`;
       }
+
+      if (keepDrawingSpiral) frame = requestAnimationFrame(render);
     }
 
     const requestRender = () => { if (!frame) frame = requestAnimationFrame(render); };
