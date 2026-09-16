@@ -38,7 +38,11 @@ npm run build
 
 ## Design and motion
 
-Graphite `#101211`, warm off-white `#f0eee8`, orange `#ff8053`, sage surfaces. Space Grotesk provides the structural typography; Instrument Serif Italic adds contrast. Both are self-hosted Google Fonts. Layouts adapt at 760 and 1100 px. Native scrolling preserves expected keyboard and anchor behavior. GSAP adds entrance reveals, desktop-only image parallax, and collection navigation state. The persistent Reduce motion control and system preference remove optional animation. Content remains readable if animation fails.
+Midnight navy `#080d14`, warm ivory `#f4f0e8`, copper `#e96b3f`, teal `#75c7b9`, and mineral green `#d9e2d0`. Space Grotesk provides the structural typography; Instrument Serif Italic adds contrast. Both are self-hosted Google Fonts. Layouts adapt at 760 and 1100 px. Native scrolling preserves expected keyboard and anchor behavior. GSAP adds entrance reveals, desktop-only image parallax, and collection navigation state. The persistent Reduce motion control and system preference remove optional animation. Content remains readable if animation fails.
+
+The shared `public/portfolio-polish.css` and `public/scroll-motion.js` serve both the React app and the static GitHub Pages homepage. The orbit supports native scrolling, numbered buttons, arrow keys, and horizontal touch swipes. Reduced motion and short viewports show a readable grid.
+
+The KD identity is a font-independent SVG in `public/favicon.svg`. Run `node scripts/build-identity.mjs` after editing it to regenerate PNG, ICO, and Apple touch icons (uses the installed Sharp dependency). The root `favicon.ico` supports GitHub Pages' default favicon lookup.
 
 ## Content provenance
 
@@ -48,8 +52,10 @@ Hero art is original AI-generated artwork. ESC uses an actual local interface ca
 
 ## Hosting
 
+The public GitHub Pages site at https://kanishkdubey1946-del.github.io/ serves the repository-root `index.html` and `public/` assets. Preview that exact entry with `python -m http.server 5173`. Keep the static homepage synchronized with React/content changes; the React studio does not regenerate it automatically. GitHub publishing uses the `github` remote.
+
 Sites project registration is in `.openai/hosting.json`. Preserve the Sites Vite plugin and Cloudflare Worker build configuration. Publishing starts private; change audience only when the owner requests it. No database or paid model key is required. Search-engine indexing is currently disabled for private review.
 
 ## Scope
 
-The local editor replaces the originally proposed Keystatic integration with a small validated file-based workflow compatible with the chosen build. No Figma document or Higgsfield video has been generated; design tokens and motion are implemented directly in source. GitHub repositories are linked manually to preserve attribution; automatic importing is not enabled.
+The local editor replaces the originally proposed Keystatic integration with a small validated file-based workflow compatible with the chosen build. Design tokens, motion, and the KD icon are implemented directly in source. The September 2026 enhancement attempted the requested integrations: Higgsfield image generation required a paid plan, and Figma editing reached the Starter plan tool limit after creating an empty file. No completed Figma design or Higgsfield media is included in this update. GitHub repositories are linked manually to preserve attribution; automatic importing is not enabled.
