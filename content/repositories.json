@@ -1,0 +1,100 @@
+[
+  {
+    "name": "ESC---Buildx",
+    "language": "TypeScript",
+    "description": "Education access and ESC Connect prototype.",
+    "url": "https://github.com/kanishkdubey1946-del/ESC---Buildx",
+    "upstream": ""
+  },
+  {
+    "name": "ESC",
+    "language": "TypeScript",
+    "description": "Adaptive learning and specialist AI agents.",
+    "url": "https://github.com/kanishkdubey1946-del/ESC",
+    "upstream": ""
+  },
+  {
+    "name": "ESC-Code-for-Communities-2.0",
+    "language": "TypeScript",
+    "description": "Code for Communities edition of ESC.",
+    "url": "https://github.com/kanishkdubey1946-del/ESC-Code-for-Communities-2.0",
+    "upstream": ""
+  },
+  {
+    "name": "kanishkdubey1946-del.github.io",
+    "language": "TypeScript",
+    "description": "This portfolio and its content studio.",
+    "url": "https://github.com/kanishkdubey1946-del/kanishkdubey1946-del.github.io",
+    "upstream": ""
+  },
+  {
+    "name": "HALO",
+    "language": "",
+    "description": "Public repository; project details to follow.",
+    "url": "https://github.com/kanishkdubey1946-del/HALO",
+    "upstream": ""
+  },
+  {
+    "name": "kanishkdubey1946-del",
+    "language": "",
+    "description": "GitHub profile and project overview.",
+    "url": "https://github.com/kanishkdubey1946-del/kanishkdubey1946-del",
+    "upstream": ""
+  },
+  {
+    "name": "drishti",
+    "language": "TypeScript",
+    "description": "On-screen examination evaluation platform.",
+    "url": "https://github.com/kanishkdubey1946-del/drishti",
+    "upstream": "https://github.com/aDiii1633/drishti"
+  },
+  {
+    "name": "markitdown",
+    "language": "Python",
+    "description": "Document-to-Markdown tooling; upstream open-source fork.",
+    "url": "https://github.com/kanishkdubey1946-del/markitdown",
+    "upstream": "https://github.com/microsoft/markitdown"
+  },
+  {
+    "name": "quantathon",
+    "language": "Python",
+    "description": "Catalyst scientific investigation workspace.",
+    "url": "https://github.com/kanishkdubey1946-del/quantathon",
+    "upstream": "https://github.com/Rtx09x/quantathon"
+  },
+  {
+    "name": "drishti-osm-platform",
+    "language": "JavaScript",
+    "description": "Evidence-first examination-marking workflows.",
+    "url": "https://github.com/kanishkdubey1946-del/drishti-osm-platform",
+    "upstream": "https://github.com/ashwikbathla2-pixel/drishti-osm-platform"
+  },
+  {
+    "name": "COMET-cmd",
+    "language": "TypeScript",
+    "description": "Multi-agent research and planning workspace.",
+    "url": "https://github.com/kanishkdubey1946-del/COMET-cmd",
+    "upstream": "https://github.com/raunakiitp/COMET"
+  },
+  {
+    "name": "catalyst",
+    "language": "TypeScript",
+    "description": "AI-native materials discovery workspace.",
+    "url": "https://github.com/kanishkdubey1946-del/catalyst",
+    "upstream": "https://github.com/Rtx09x/catalyst"
+  },
+  {
+    "name": "agrobot-smart-irrigation-system",
+    "language": "JavaScript",
+    "description": "NodeMCU soil monitoring and web dashboard.",
+    "url": "https://github.com/kanishkdubey1946-del/agrobot-smart-irrigation-system",
+    "upstream": ""
+  },
+  {
+    "name": "agobot-smart-irrigation-system",
+    "language": "JavaScript",
+    "description": "Earlier irrigation-system repository.",
+    "url": "https://github.com/kanishkdubey1946-del/agobot-smart-irrigation-system",
+    "upstream": ""
+  }
+]

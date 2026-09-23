@@ -24,17 +24,19 @@
         "React",
         "TypeScript",
         "FastAPI",
+        "SQLite",
+        "Google ADK",
         "Multi-agent AI"
       ],
       "repo": "https://github.com/kanishkdubey1946-del/ESC",
-      "demo": "https://esc-study-companion-web.onrender.com",
+      "demo": "https://esc-study-companion-web.onrender.com/",
       "image": "/media/esc.webp",
       "imageAlt": "ESC homepage showing its learning companion and specialist workflow",
       "visual": "esc",
       "role": "Product development & adaptive learning workflows",
       "team": "Hack & Jam project",
       "upstream": "",
-      "recognition": "Runner-up · Hack & Jam 2026",
+      "recognition": "Runner-up · Hack & Jam 2026; 2nd rank · Code for Community 2026",
       "problem": "Studying often means switching between a chatbot, notes, practice questions, and a planner. ESC brings those activities into a connected flow, so a question leads to useful practice and a plan for what comes next.",
       "approach": "I worked on the personalised learning experience: combining performance signals with topic-level guidance and relevant resources. The application includes conversational assistance, a specialist studio, and an adaptive learning workspace.",
       "decisions": [
@@ -78,7 +80,7 @@
         "Chart.js"
       ],
       "repo": "https://github.com/kanishkdubey1946-del/agrobot-smart-irrigation-system",
-      "demo": "",
+      "demo": "https://kanishkdubey1946-del-agobot-smart-i.vercel.app/login.html",
       "image": "",
       "imageAlt": "",
       "visual": "agrobot",
@@ -118,23 +120,27 @@
       "subtitle": "Make every mark traceable.",
       "category": "Research",
       "year": "2025–26",
-      "status": "Manuscript in preparation",
+      "status": "Software demo · research in progress",
       "published": true,
       "featured": true,
-      "summary": "Human-in-the-loop examination evaluation, connecting answer-sheet capture, assisted marking, moderation, and an auditable review trail.",
+      "summary": "A human-in-the-loop marking platform connecting answer-sheet intake, AI-assisted evaluation, moderation, and QR-verifiable records.",
       "tags": [
-        "Research",
+        "React",
+        "TypeScript",
+        "Express",
+        "tRPC",
+        "Drizzle ORM",
         "Human-in-the-loop AI",
         "ESP32-S3 CAM"
       ],
-      "repo": "https://github.com/kanishkdubey1946-del/drishti-osm-platform",
-      "demo": "",
+      "repo": "https://github.com/aDiii1633/drishti",
+      "demo": "https://drishti-eight-pearl.vercel.app/",
       "image": "",
       "imageAlt": "",
       "visual": "drishti",
       "role": "Research writing & capture-system architecture",
       "team": "Team Shiny · IIT Patna",
-      "upstream": "https://github.com/ashwikbathla2-pixel/drishti-osm-platform",
+      "upstream": "https://github.com/aDiii1633/drishti",
       "recognition": "",
       "problem": "Answer evaluation needs readable capture, correct script-to-record mapping, and a way to review differences between human and AI assessments.",
       "approach": "My work covers the research manuscript, literature review, cost modelling, and an ESP32-S3 CAM capture-rig architecture. The optical design considers lens calibration, lighting, and capture quality before evaluation.",
@@ -159,7 +165,7 @@
         "Audit trail"
       ],
       "outcome": "Research manuscript in preparation, with a documented capture architecture and evaluation workflow. Team and upstream credit are preserved.",
-      "limitations": "Not a published peer-reviewed paper or an endorsed examination-board system. Evaluation accuracy, cost assumptions, and hardware performance require further validation.",
+      "limitations": "The software works with uploaded or browser-captured answer sheets. The repository documents the physical camera provider as a planned, uncertified integration; a separate team post describes a hackathon capture-system build. The manuscript is in preparation, and measured grading accuracy and hardware performance remain to be validated.",
       "next": "Evaluate capture quality and review outcomes using an appropriate, permissioned test dataset."
     },
     {
@@ -176,15 +182,18 @@
         "Python",
         "FastAPI",
         "React",
-        "Workflow automation"
+        "TypeScript",
+        "SQLite",
+        "OpenAI API",
+        "Multi-agent AI"
       ],
-      "repo": "https://github.com/kanishkdubey1946-del/COMET-cmd",
+      "repo": "https://github.com/raunakiitp/COMET",
       "demo": "",
       "image": "",
       "imageAlt": "",
       "visual": "comet",
       "role": "Agent orchestration & API workflows",
-      "team": "Collaborative project",
+      "team": "Collaborative project · Webcmd Hackathon",
       "upstream": "https://github.com/raunakiitp/COMET",
       "recognition": "",
       "problem": "Research and planning cross tools and specialisms. A useful agent system coordinates those handoffs while retaining context.",
@@ -206,36 +215,38 @@
         "Structured report"
       ],
       "outcome": "An orchestration prototype demonstrated in a live pipeline, as documented in my résumé.",
-      "limitations": "A fork of raunakiitp/COMET. Autonomous operation is bounded by supported tools and provider availability.",
+      "limitations": "A collaborative prototype. Agent workflows depend on configured model providers, supported tools, and source availability.",
       "next": "Make recovery and the relationship between sources, agent outputs, and saved reports easier to follow."
     },
     {
       "slug": "catalyst",
       "title": "Catalyst",
-      "subtitle": "Exploring computational discovery.",
+      "subtitle": "From materials to a scientific investigation.",
       "category": "Research",
       "year": "2025–26",
       "status": "Collaborative research",
       "published": true,
       "featured": false,
-      "summary": "Quantum-computing exploration and an evolving materials-discovery workspace, with my contribution distinguished from the broader project.",
+      "summary": "A scientific workspace for exploring materials, crystal structures, evidence graphs, and genomics through guided, AI-assisted investigations.",
       "tags": [
         "Python",
-        "Quantum computing",
-        "VQE",
-        "Materials research"
+        "FastAPI",
+        "React",
+        "DuckDB",
+        "SQLite",
+        "Scientific visualization"
       ],
-      "repo": "https://github.com/kanishkdubey1946-del/catalyst",
+      "repo": "https://github.com/kanishkdubey1946-del/quantathon",
       "demo": "",
       "image": "",
       "imageAlt": "",
       "visual": "catalyst",
       "role": "Contributor · quantum VQE exploration",
-      "team": "Catalyst team",
-      "upstream": "https://github.com/Rtx09x/catalyst",
+      "team": "Collaborative project · RIT Quant-A-Thon",
+      "upstream": "",
       "recognition": "Finalist · RIT Quant-A-Thon 2026",
-      "problem": "Computational methods help explore molecular and material behaviour. Different revisions of a project can address different parts of that discovery process.",
-      "approach": "My résumé describes contributing to Variational Quantum Eigensolver experiments for approximating molecular ground-state energies. The current public repository describes a broader AI-assisted materials-discovery workspace.",
+      "problem": "Scientific records are difficult to explore when structures, properties, source evidence, and related biological context sit in separate tools.",
+      "approach": "The supplied Quantathon repository presents Catalyst as a materials and genomics workspace with interactive structures, source context, and guided investigations. My résumé documents the earlier VQE exploration; that individual contribution is distinct from the capabilities of the current team workspace.",
       "decisions": [
         {
           "title": "Keep research scope explicit",
@@ -248,13 +259,187 @@
       ],
       "architecture": [
         "Research question",
-        "Candidate method",
-        "Computation",
-        "Inspect results"
+        "Material + evidence",
+        "Structure + context",
+        "Investigation brief"
       ],
       "outcome": "Finalist at RIT Quant-A-Thon 2026, held on 29–30 July, as recorded in my résumé.",
       "limitations": "No quantum advantage, validated scientific discovery, or performance beyond classical limits is claimed.",
-      "next": "Document experimental settings and reproducible results alongside the appropriate project revision."
+      "next": "Document reproducible experiments and individual contributions alongside the corresponding project revision."
+    },
+    {
+      "slug": "esc-connect",
+      "title": "ESC Connect",
+      "subtitle": "Learning, opportunity and community.",
+      "category": "Web experiences",
+      "year": "2026",
+      "status": "Working prototype",
+      "published": true,
+      "featured": false,
+      "summary": "An ESC Buildx prototype connecting scholarship discovery, opportunities, teacher communication and attendance follow-up.",
+      "tags": [
+        "TypeScript",
+        "Education access",
+        "Product analytics"
+      ],
+      "repo": "https://github.com/kanishkdubey1946-del/ESC---Buildx",
+      "demo": "",
+      "image": "",
+      "imageAlt": "",
+      "visual": "project",
+      "role": "Developer",
+      "team": "ESC · Buildx edition",
+      "upstream": "",
+      "recognition": "",
+      "problem": "Students need access to opportunities and school support alongside learning resources.",
+      "approach": "The project explores profile-based scholarship matching, a filtered opportunities feed, school groups and signals for attendance follow-up. Text-first interaction is a focus for limited-data environments.",
+      "decisions": [
+        {
+          "title": "Connect information to action",
+          "body": "Profiles and filters help turn an opportunity feed into a relevant next step."
+        },
+        {
+          "title": "Design for limited connectivity",
+          "body": "Text-first screens and simple language make the intended workflows easier to access."
+        }
+      ],
+      "architecture": [
+        "Student profile",
+        "Opportunity filters",
+        "School communication",
+        "Follow-up"
+      ],
+      "outcome": "A publicly available prototype and product analytics overview in the ESC Buildx repository.",
+      "limitations": "The README labels its benchmark figures as demo presentation data. They are not measured performance claims.",
+      "next": "Validate the student and teacher journeys with users and replace demonstration data with observed results."
+    }
+  ],
+  "events": [
+    {
+      "slug": "code-for-community-2",
+      "title": "GDG Code for Community · Second Edition",
+      "category": "Award",
+      "result": "2nd rank · Top five",
+      "date": "19 SEP 2026",
+      "location": "G H Raisoni College of Engineering and Management · Nagpur",
+      "summary": "Second rank among the top five at the second edition of GDG Code for Community.",
+      "story": "A new milestone in my hackathon journey: second rank in the top five at GDG Code for Community, second edition, on 19 September 2026. The event was held at G H Raisoni College of Engineering and Management (GHRCEMN), B-37-39/1 Wadi Link Road, Nagpur.",
+      "projectSlug": "esc",
+      "source": "",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "drishti-chandigarh",
+      "title": "Drishti at Chandigarh University",
+      "category": "Participation",
+      "result": "On-site participant",
+      "date": "2026",
+      "location": "Chandigarh University",
+      "summary": "Taking human-in-the-loop examination evaluation from research to a hackathon demo.",
+      "story": "Our team took Drishti to Chandigarh University after clearing the first round. My contribution focused on research writing and the capture-system architecture. The team built and demonstrated an examination-evaluation workflow, with human review at its centre. We did not win this event; the work, teamwork and experience remain an important part of the project.",
+      "projectSlug": "drishti",
+      "source": "https://www.linkedin.com/feed/update/urn:li:activity:7501359678518407168/",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "build-with-swytchcode",
+      "title": "Build with Swytchcode",
+      "category": "Community",
+      "result": "Organizer",
+      "date": "09 AUG 2026",
+      "location": "Paytm office · Noida",
+      "summary": "Helping bring builders together for the Swytchcode × KNOTiC buildathon.",
+      "story": "I was one of the organizers of Build with Swytchcode 2026. The event brought builders, mentors and judges together at the Paytm office in Noida to experiment with APIs and develop working prototypes.",
+      "projectSlug": "",
+      "source": "https://www.linkedin.com/feed/update/urn:li:activity:7491919267613888512/",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "hack-and-jam",
+      "title": "Hack & Jam",
+      "category": "Award",
+      "result": "Runner-up",
+      "date": "02 AUG 2026",
+      "location": "Anjuman College · Nagpur",
+      "summary": "Building ESC, an adaptive learning companion, and presenting it in the final round.",
+      "story": "We built ESC to connect student performance with personalised study plans and relevant learning resources. I worked on adaptive learning and recommendation workflows, then presented the working prototype at Hack & Jam, hosted by Anjuman College of Engineering and Technology with GDG Nagpur as community partner.",
+      "projectSlug": "esc",
+      "source": "",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "rit-quantathon",
+      "title": "RIT Quant-A-Thon",
+      "category": "Finalist",
+      "result": "Finalist",
+      "date": "29–30 JUL 2026",
+      "location": "Rajalakshmi Institute of Technology · Chennai",
+      "summary": "A 36-hour international hackathon exploring AI-assisted scientific workflows.",
+      "story": "My first international hackathon experience brought together materials research, rapid prototyping and teamwork in Chennai. The Catalyst project connects scientific investigation with an interactive workspace. My résumé records our finalist standing and my contribution to quantum VQE exploration.",
+      "projectSlug": "catalyst",
+      "source": "https://www.linkedin.com/feed/update/urn:li:activity:7500301450691002369/",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "bharatiya-antariksh",
+      "title": "Bharatiya Antariksh Hackathon",
+      "category": "Participation",
+      "result": "Certificate of participation",
+      "date": "2026",
+      "location": "",
+      "summary": "Exploring intelligent agriculture with AgroBot, connected sensing and data-driven insights.",
+      "story": "I received a Certificate of Participation from the Bharatiya Antariksh Hackathon 2026, presented by ISRO. My work explored an intelligent agriculture solution, including AgroBot soil-moisture monitoring and decision support.",
+      "projectSlug": "agrobot",
+      "source": "https://www.linkedin.com/feed/update/urn:li:activity:7497640768942112768/",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "webcmd-hackathon",
+      "title": "Webcmd Hackathon",
+      "category": "Participation",
+      "result": "Builder · COMET",
+      "date": "2026",
+      "location": "",
+      "summary": "From individual AI answers to coordinated, evidence-based workflows.",
+      "story": "At the Webcmd Hackathon, we built COMET: a multi-agent system that breaks goals into tasks, coordinates specialist agents and assembles structured outputs. The project explored evidence-based research and live data integration through Agentr.",
+      "projectSlug": "comet",
+      "source": "https://www.linkedin.com/feed/update/urn:li:activity:7491823645829353472/",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "iwsa-research",
+      "title": "IWSA Research Contest",
+      "category": "Research",
+      "result": "1st place · Nagpur chapter",
+      "date": "DEC 2021",
+      "location": "Nagpur",
+      "summary": "A survey-based study of social media and family communication.",
+      "story": "I co-authored a study on how social media affects family communication, surveying respondents across age groups and professions. The research won first place at the Indian Women Scientist Association Nagpur chapter contest and was covered in Lokmat Times on 18 December 2021.",
+      "projectSlug": "",
+      "source": "",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "children-science-congress",
+      "title": "National Children Science Congress",
+      "category": "Research",
+      "result": "State-level selection",
+      "date": "DEC 2021",
+      "location": "Pune · Representing Vidarbha",
+      "summary": "Representing the Vidarbha region at the state-level science forum.",
+      "story": "Our research project was selected to represent Vidarbha at the state-level National Children Science Congress in Pune. This early experience introduced me to presenting research beyond the classroom.",
+      "projectSlug": "",
+      "source": "",
+      "published": true,
+      "media": []
     }
   ],
   "experience": [
@@ -278,6 +463,12 @@
     "details": "CPI: 9.00 in Semester 1 · 8.96 in Semester 2"
   },
   "recognition": [
+    {
+      "title": "GDG Code for Community · Second Edition",
+      "result": "2nd rank · Top five",
+      "date": "19 SEP 2026",
+      "body": "Second rank among the top five · G H Raisoni College of Engineering and Management, Nagpur."
+    },
     {
       "title": "Hack & Jam",
       "result": "Runner-up",

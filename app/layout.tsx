@@ -24,7 +24,7 @@ export const viewport: Viewport = { themeColor: '#080d14' };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return <html lang="en"><head>
     <link rel="stylesheet" href="/scroll-motion.css?v=identity-2"/>
-    <link rel="stylesheet" href="/portfolio-polish.css?v=identity-2"/>
+    <link rel="stylesheet" href="/portfolio-polish.css?v=projects-1"/>
   </head><body id="top"><a href="#main" className="skip-link">Skip to content</a>
     <Navigation/>{children}<Footer person={site.person}/><MotionSystem/>
     <script src="/scroll-motion.js?v=identity-2" defer/>

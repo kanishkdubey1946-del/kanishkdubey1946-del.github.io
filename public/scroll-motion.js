@@ -211,7 +211,10 @@
     };
   }
   window.__initPortfolioScrollMotion = initScrollMotion;
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initScrollMotion,{once:true});
-  else initScrollMotion();
+  // React routes initialize after hydration; legacy HTML initializes on DOM ready.
+  if (document.querySelector('.motion')) {
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initScrollMotion,{once:true});
+    else initScrollMotion();
+  }
   document.addEventListener('portfolio:route-ready',initScrollMotion);
 })();

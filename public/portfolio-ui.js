@@ -67,6 +67,10 @@
     if(location.hash==='#notes' && !document.getElementById('notes')) document.getElementById('contact')?.scrollIntoView();
     disposeCurrent=()=>{cleanups.forEach(cleanup=>cleanup());clearTimeout(copyTimer);if(frame)cancelAnimationFrame(frame);};
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  // React routes initialize after hydration; legacy HTML initializes on DOM ready.
+  if (document.querySelector('.motion')) {
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+    else init();
+  }
   document.addEventListener('portfolio:route-ready',init);
 })();

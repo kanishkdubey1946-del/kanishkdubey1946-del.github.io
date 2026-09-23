@@ -16,10 +16,10 @@ node node_modules/vinext/dist/cli.js dev --port 5173
 ## Update your content
 
 1. With the local server running, open http://localhost:5173/studio.
-2. Choose Projects, Writing, Person, Experience, Education, Recognition, or Skills.
+2. Choose Projects, Events, Writing, Person, Experience, Education, Recognition, or Skills.
 3. Add an entry or edit an existing one. New projects and notes start as drafts.
 4. Project architecture uses exactly four steps. Keep project and note slugs unique, lowercase, and hyphenated.
-5. Upload PNG, JPEG, or WebP images up to 8 MB. Add descriptive Image Alt text. The editor stores images in `public/media`.
+5. Upload PNG, JPEG, or WebP images, or MP4/WebM event videos, up to 64 MB each. Add descriptive Image Alt text. The editor stores images in `public/media`.
 6. Enable Published to show a project or note; enable Featured to add a project to the homepage. Use the arrows to reorder entries.
 7. Save changes, review the local website, then ask Codex to publish the updated site.
 
@@ -46,16 +46,45 @@ The KD identity is a font-independent SVG in `public/favicon.svg`. Run `node scr
 
 ## Content provenance
 
-Profile, education, experience, and awards come from the supplied Kanishk Dubey résumé and previous research notes. Project records distinguish individual work, collaborative repositories, prototypes, and research in preparation. LinkedIn could not be independently read. Repository feature descriptions do not establish individual authorship or production reliability. Review facts before making the site public.
+Profile, education, experience, and awards come from the supplied Kanishk Dubey résumé and previous research notes. Project records distinguish individual work, collaborative repositories, prototypes, and research in preparation. LinkedIn profile activity and reposts were read in the signed-in browser on 22 September 2026; see `docs/CONTENT_SOURCES.md`. Repository feature descriptions do not establish individual authorship or production reliability. Review facts before making the site public.
 
 Hero art is original AI-generated artwork. ESC uses an actual local interface capture. AgroBot hardware photography comes from the user’s public project repository. Functional project diagrams are conceptual rather than measured performance charts. This build has no fabricated testimonials, visitor counters, client logos, paper publication claims, or invented articles.
 
 ## Hosting
 
-The public GitHub Pages site at https://kanishkdubey1946-del.github.io/ serves the repository-root `index.html` and `public/` assets. Preview that exact entry with `python -m http.server 5173`. Keep the static homepage synchronized with React/content changes; the React studio does not regenerate it automatically. GitHub publishing uses the `github` remote.
+The old GitHub Pages homepage is preserved in `legacy/github-pages-index.html`. It was moved because the root index.html shadowed the React homepage during local development. The multi-page app now uses `app/page.tsx` consistently. The currently published GitHub Pages site is unchanged. Do not publish the source root directly to GitHub Pages: this app requires the Worker/server build, or a separately configured and verified static export. GitHub publishing uses the `github` remote.
 
 Sites project registration is in `.openai/hosting.json`. Preserve the Sites Vite plugin and Cloudflare Worker build configuration. Publishing starts private; change audience only when the owner requests it. No database or paid model key is required. Search-engine indexing is currently disabled for private review.
 
 ## Scope
 
 The local editor replaces the originally proposed Keystatic integration with a small validated file-based workflow compatible with the chosen build. Design tokens, motion, and the KD icon are implemented directly in source. The September 2026 enhancement attempted the requested integrations: Higgsfield image generation required a paid plan, and Figma editing reached the Starter plan tool limit after creating an empty file. No completed Figma design or Higgsfield media is included in this update. GitHub repositories are linked manually to preserve attribution; automatic importing is not enabled.
+
+## Multi-page content phase — September 2026
+
+Routes: `/`, `/projects`, `/projects/[slug]`, `/achievements`, `/achievements/[slug]`, `/hacke-diaries`, `/about`, `/contact`, `/writing`, `/studio`.
+
+The Projects page includes six case studies and a dated directory of fourteen public repositories. The directory is a reviewed snapshot in `content/repositories.json`, not a live API integration. Forks link to their upstream sources; private repositories are excluded.
+
+### Add photos, videos and certificates
+
+1. Run the local preview and open `/studio`.
+2. Choose **Events**, then an event (or add one; new events are drafts).
+3. Use **Upload event photo or video** for each file. Certificate images work as photos.
+4. Edit the media description (`Alt`), caption, optional video poster path, and transcript. Media type is `image` or `video`.
+5. Use **Published** when ready, then **Save changes**. View `/achievements/<slug>`.
+6. Publish the app separately when the local content is ready for the live site.
+
+Categories are Award, Finalist, Participation, Community, and Research. `Project Slug` connects an event to an existing case study. Hacke Diaries includes all published non-research events; Achievements includes every published event. Each event has one canonical story URL, shared by both collections.
+
+Original Instagram media has not been imported. Empty albums say that photos are on their way. No event photos, certificates, or videos were fabricated. The UI supports images in an accessible enlargement dialog and native video controls with byte-range support during local preview.
+
+Additional validation: `node scripts/check-events.mjs` (requires the local server). It restores original content and removes generated upload fixtures. Do not edit content during this test.
+
+### Next visual phase
+
+The requested major UI/UX redesign and frame-by-frame scroll-video sequence are deferred. Next: choose the visual direction, supply actual hackathon media, storyboard a short original sequence, then implement scroll-linked playback with a poster/reduced-motion fallback and mobile performance checks. Existing motion is retained; it is not a new cinematic video sequence.
+
+### Delivery status
+
+Local app implementation and Worker build are available. Sites publishing could not proceed because the registered plugin's `scripts/site-workflow.mjs` is absent on this installation. No source push or hosted deployment was performed. Existing hosting identity and Git remotes are preserved.
