@@ -1,90 +1,63 @@
-# Kanishk Dubey — Builder’s Observatory
+# Kanishk Dubey — student portfolio
 
-A personal portfolio with original orbital art, GSAP scroll motion, project case studies, a searchable archive, profile, experience, achievements, notes and a local content editor.
+A professional, multi-page student portfolio for Kanishk Dubey, IIT Patna: project case studies, achievements, Hacke Diaries, education, experience, and direct contact.
 
-## Run locally
+## Preview the public website
 
-Install Node.js 22+ and run `npm install`, then `npm run dev`. Open http://localhost:5173.
-
-On this Windows installation, if the npm launcher cannot resolve its own modules, use:
-
-```powershell
-node 'C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js' install
-node node_modules/vinext/dist/cli.js dev --port 5173
-```
-
-## Update your content
-
-1. With the local server running, open http://localhost:5173/studio.
-2. Choose Projects, Events, Writing, Person, Experience, Education, Recognition, or Skills.
-3. Add an entry or edit an existing one. New projects and notes start as drafts.
-4. Project architecture uses exactly four steps. Keep project and note slugs unique, lowercase, and hyphenated.
-5. Upload PNG, JPEG, or WebP images, or MP4/WebM event videos, up to 64 MB each. Add descriptive Image Alt text. The editor stores images in `public/media`.
-6. Enable Published to show a project or note; enable Featured to add a project to the homepage. Use the arrows to reorder entries.
-7. Save changes, review the local website, then ask Codex to publish the updated site.
-
-**Saving locally does not update the hosted site.** The hosted `/studio` page explains this workflow. File-writing endpoints only exist in the local Vite development server. They reject foreign origins and require an explicit studio header. No credentials or public administration API are included in the website.
-
-Backup exports the complete content JSON. The source of truth is `content/site.json`. To restore, replace that file with a saved backup. Notes use plain text with blank lines between paragraphs; HTML is escaped. Replace the résumé in `public/files` and update the Resume path in Person if its filename changes.
-
-## Validation
+With Node.js 22+ installed:
 
 ```sh
-npx tsc --noEmit
-npm run lint
-node scripts/check-content.mjs # requires the dev server; restores content after checks
-npm run build
+npm run dev
 ```
 
-## Design and motion
+Open **http://localhost:5180**. This uses the same HTML, CSS and JavaScript that GitHub Pages serves. Content changes regenerate the pages while this command is running; refresh the browser to see them.
 
-Midnight navy `#080d14`, warm ivory `#f4f0e8`, copper `#e96b3f`, teal `#75c7b9`, and mineral green `#d9e2d0`. Space Grotesk provides the structural typography; Instrument Serif Italic adds contrast. Both are self-hosted Google Fonts. Layouts adapt at 760 and 1100 px. Native scrolling preserves expected keyboard and anchor behavior. GSAP adds entrance reveals, desktop-only image parallax, and collection navigation state. The persistent Reduce motion control and system preference remove optional animation. Content remains readable if animation fails.
+No installation or external API is required to build or preview the public website.
 
-The shared `public/portfolio-polish.css` and `public/scroll-motion.js` serve both the React app and the static GitHub Pages homepage. The orbit supports native scrolling, numbered buttons, arrow keys, and horizontal touch swipes. Reduced motion and short viewports show a readable grid.
+## Build and verify
 
-The KD identity is a font-independent SVG in `public/favicon.svg`. Run `node scripts/build-identity.mjs` after editing it to regenerate PNG, ICO, and Apple touch icons (uses the installed Sharp dependency). The root `favicon.ico` supports GitHub Pages' default favicon lookup.
+```sh
+npm run build
+npm run check:pages
+```
 
-## Content provenance
+The build reads `content/site.json` and `content/repositories.json` and generates real HTML routes at the repository root. The route manifest is `.pages-manifest.json`. Every project and event detail URL works on direct load and refresh. The build safely removes obsolete generated detail HTML from the prior manifest when an entry becomes a draft or its slug changes.
 
-Profile, education, experience, and awards come from the supplied Kanishk Dubey résumé and previous research notes. Project records distinguish individual work, collaborative repositories, prototypes, and research in preparation. LinkedIn profile activity and reposts were read in the signed-in browser on 22 September 2026; see `docs/CONTENT_SOURCES.md`. Repository feature descriptions do not establish individual authorship or production reliability. Review facts before making the site public.
+Do not hand-edit generated HTML. Edit the content or `scripts/build-pages.mjs`; presentation is in `public/portfolio.css` and `public/portfolio.js`. Run the build before committing. GitHub Pages serves `main` / root; `.nojekyll` disables Jekyll processing.
 
-Hero art is original AI-generated artwork. ESC uses an actual local interface capture. AgroBot hardware photography comes from the user’s public project repository. Functional project diagrams are conceptual rather than measured performance charts. This build has no fabricated testimonials, visitor counters, client logos, paper publication claims, or invented articles.
+The previous single-page site is preserved at `legacy/github-pages-index.html`. The public website no longer requires a Worker or another hosting account.
 
-## Hosting
+## Edit content and add real photos/videos
 
-The old GitHub Pages homepage is preserved in `legacy/github-pages-index.html`. It was moved because the root index.html shadowed the React homepage during local development. The multi-page app now uses `app/page.tsx` consistently. The currently published GitHub Pages site is unchanged. Do not publish the source root directly to GitHub Pages: this app requires the Worker/server build, or a separately configured and verified static export. GitHub publishing uses the `github` remote.
+The existing local React content editor is retained. Its dependencies must be installed (`npm install`) to use it:
 
-Sites project registration is in `.openai/hosting.json`. Preserve the Sites Vite plugin and Cloudflare Worker build configuration. Publishing starts private; change audience only when the owner requests it. No database or paid model key is required. Search-engine indexing is currently disabled for private review.
+```sh
+npm run dev:studio
+```
 
-## Scope
+Open **http://localhost:5173/studio**.
 
-The local editor replaces the originally proposed Keystatic integration with a small validated file-based workflow compatible with the chosen build. Design tokens, motion, and the KD icon are implemented directly in source. The September 2026 enhancement attempted the requested integrations: Higgsfield image generation required a paid plan, and Figma editing reached the Starter plan tool limit after creating an empty file. No completed Figma design or Higgsfield media is included in this update. GitHub repositories are linked manually to preserve attribution; automatic importing is not enabled.
+1. Choose Projects, Events, Person, Experience, Education, Skills or Writing.
+2. Edit a record, or create a draft.
+3. In Events, upload PNG/JPEG/WebP photos or MP4/WebM videos (up to 64 MB each).
+4. Add meaningful descriptions, captions, and a video transcript where relevant.
+5. Enable Published and save.
+6. Run `npm run build` (or keep `npm run dev` running), inspect the public preview, then commit and push the generated pages and uploaded files.
 
-## Multi-page content phase — September 2026
+Saving locally does not publish automatically. Private Instagram content must be supplied by its owner; the site does not fetch Instagram highlights.
 
-Routes: `/`, `/projects`, `/projects/[slug]`, `/achievements`, `/achievements/[slug]`, `/hacke-diaries`, `/about`, `/contact`, `/writing`, `/studio`.
+The local editor writes only through the localhost Vite server. GitHub Pages has no public editing API. The public navigation does not expose a nonfunctional Studio link. The editor's built-in website preview uses the earlier React theme; the public preview at port 5180 is the redesigned site.
 
-The Projects page includes six case studies and a dated directory of fourteen public repositories. The directory is a reviewed snapshot in `content/repositories.json`, not a live API integration. Forks link to their upstream sources; private repositories are excluded.
+The JSON files remain the source of truth. Back up/export the content before large changes. Keep slugs unique and lowercase with hyphens. Source/demo links must use HTTPS. Draft entries are excluded from the public build. Replace the résumé at `public/files/Kanishk-Dubey-Resume.docx` to update the download.
 
-### Add photos, videos and certificates
+## Design
 
-1. Run the local preview and open `/studio`.
-2. Choose **Events**, then an event (or add one; new events are drafts).
-3. Use **Upload event photo or video** for each file. Certificate images work as photos.
-4. Edit the media description (`Alt`), caption, optional video poster path, and transcript. Media type is `image` or `video`.
-5. Use **Published** when ready, then **Save changes**. View `/achievements/<slug>`.
-6. Publish the app separately when the local content is ready for the live site.
+White and cool-gray surfaces, charcoal text, and cobalt blue. Space Grotesk and Instrument Serif are self-hosted. Real ESC interface and AgroBot hardware images are used; other project visuals are labeled workflow diagrams. No fabricated portrait or event photographs are included.
 
-Categories are Award, Finalist, Participation, Community, and Research. `Project Slug` connects an event to an existing case study. Hacke Diaries includes all published non-research events; Achievements includes every published event. Each event has one canonical story URL, shared by both collections.
+Mobile navigation, category filters, search, native video playback, photo enlargement, clipboard feedback and reduced-motion controls progressively enhance static HTML. The main content and ordinary navigation remain available without JavaScript.
 
-Original Instagram media has not been imported. Empty albums say that photos are on their way. No event photos, certificates, or videos were fabricated. The UI supports images in an accessible enlargement dialog and native video controls with byte-range support during local preview.
+See `docs/REDESIGN.md` for the design plan and `docs/CONTENT_SOURCES.md` for content provenance. Repository descriptions preserve upstream credit and distinguish individual contributions from the team's complete project.
 
-Additional validation: `node scripts/check-events.mjs` (requires the local server). It restores original content and removes generated upload fixtures. Do not edit content during this test.
+## Original app
 
-### Next visual phase
-
-The requested major UI/UX redesign and frame-by-frame scroll-video sequence are deferred. Next: choose the visual direction, supply actual hackathon media, storyboard a short original sequence, then implement scroll-linked playback with a poster/reduced-motion fallback and mobile performance checks. Existing motion is retained; it is not a new cinematic video sequence.
-
-### Delivery status
-
-Local app implementation and Worker build are available. Sites publishing could not proceed because the registered plugin's `scripts/site-workflow.mjs` is absent on this installation. No source push or hosted deployment was performed. Existing hosting identity and Git remotes are preserved.
+The React/Vinext code and local content studio are preserved under `app/`, `components/`, and `build/`. Use `npm run build:worker` only when deliberately preparing that separate original Worker application. Its Sites registration remains unchanged; the public GitHub portfolio does not use that deployment account.
