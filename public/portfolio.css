@@ -46,3 +46,13 @@ html[data-reduce-motion=true]{scroll-behavior:auto}html[data-reduce-motion=true]
  .footer-bottom .text-link{font-size:12px}.social-rows>a>span:not([aria-hidden]){font-size:12px}
  .hero-actions .button{min-height:48px}.lightbox-close{min-height:44px}
 }
+
+/* User-supplied presentation photograph; retain the original image. */
+.profile-photo{margin:20px 0 20px;border-radius:8px;overflow:hidden;background:#e4e8f1}
+.profile-photo img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:23% center}
+.about-portrait{margin:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--wash)}
+.about-portrait>img{width:100%;height:auto}
+.about-portrait figcaption{padding:25px 28px}
+.about-portrait strong{display:block;font-size:27px;letter-spacing:-.04em;margin-top:10px;font-weight:500}
+.about-portrait figcaption p{font-size:14px;color:var(--muted);margin-top:6px}
+@media(max-width:600px){.profile-photo{grid-column:1/-1;margin:0 0 22px}.profile-photo img{aspect-ratio:16/10;object-position:20% center}.about-portrait figcaption{padding:22px}.about-portrait strong{font-size:25px}}
