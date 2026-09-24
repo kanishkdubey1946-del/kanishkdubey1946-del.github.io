@@ -56,5 +56,3 @@ html[data-reduce-motion=true]{scroll-behavior:auto}html[data-reduce-motion=true]
 .about-portrait strong{display:block;font-size:27px;letter-spacing:-.04em;margin-top:10px;font-weight:500}
 .about-portrait figcaption p{font-size:14px;color:var(--muted);margin-top:6px}
 @media(max-width:600px){.profile-photo{grid-column:1/-1;margin:0 0 22px}.profile-photo img{aspect-ratio:16/10;object-position:40% center}.about-portrait figcaption{padding:22px}.about-portrait strong{font-size:25px}}
-
-.hero-scene-link{margin-top:13px;font-size:13px}

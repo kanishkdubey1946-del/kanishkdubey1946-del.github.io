@@ -11,7 +11,7 @@ for(const name of manifest){
  const html=await readFile(resolve(root,name),'utf8');
  assert(html.startsWith('<!doctype html>'),name+' document type');
  assert.equal((html.match(/<h1[ >]/g)||[]).length,1,name+' must have exactly one main heading');
- assert(html.includes('<main id="main">'),name+' skip target');
+ assert(html.includes('<main id="main"'),name+' skip target');
  for(const match of html.matchAll(/(?:href|src|poster)="([^"]+)"/g)){
   const url=match[1].replaceAll('&amp;','&');
   if(url.startsWith('/')&&!url.startsWith('//')){
@@ -30,5 +30,6 @@ for(const [key,base] of [['projects','projects'],['events','achievements'],['wri
 }
 const all=await Promise.all(manifest.map(p=>readFile(resolve(root,p),'utf8')));
 assert(!all.some(h=>h.includes('undefined')||h.includes('[object Object]')),'No template leakage');
-assert((await readFile(resolve(root,'index.html'),'utf8')).includes('Curious by nature.'),'New public home is present');
+assert((await readFile(resolve(root,'index.html'),'utf8')).includes('Enter portfolio'),'Robot entrance is present');
+assert((await readFile(resolve(root,'portfolio/index.html'),'utf8')).includes('Curious by nature.'),'Portfolio home is present');
 console.log('PASS: '+manifest.length+' static pages; '+checked+' local links/assets; published/draft routes; complete documents.');
