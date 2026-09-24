@@ -440,6 +440,34 @@
       "source": "",
       "published": true,
       "media": []
+    },
+    {
+      "slug": "build-what-moves-india-top-250",
+      "title": "Build What Moves India · Top 250",
+      "category": "Finalist",
+      "result": "#118 of 250",
+      "date": "2026",
+      "location": "",
+      "summary": "Drishti was selected for the Build What Moves India Top 250 and placed 118th.",
+      "story": "Drishti was selected among the 250 projects in Build What Moves India. Our team placed 118th on the published list. The entry lists Aditya and Kanishk Ashish Dubey as the builders. We presented Drishti’s human-in-the-loop examination-evaluation workflow.",
+      "projectSlug": "drishti",
+      "source": "https://buildwhatmovesindia.com/top-250",
+      "published": true,
+      "media": []
+    },
+    {
+      "slug": "fund-my-crazy-top-50",
+      "title": "Fund My Crazy · Build in Public",
+      "category": "Finalist",
+      "result": "Top 50 · Build in Public",
+      "date": "SEP 2026",
+      "location": "",
+      "summary": "Drishti advanced to the Top 50 Build in Public stage of Fund My Crazy 2026.",
+      "story": "We submitted Drishti to Fund My Crazy 2026 and advanced to its Top 50 Build in Public stage. The next round invited selected teams to develop and share their ideas in public. The Fund My Crazy confirmation email outlined the shortlist and Build in Public timeline.",
+      "projectSlug": "drishti",
+      "source": "https://fundmycrazy.com/",
+      "published": true,
+      "media": []
     }
   ],
   "experience": [

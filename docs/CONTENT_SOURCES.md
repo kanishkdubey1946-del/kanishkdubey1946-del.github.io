@@ -41,3 +41,11 @@ The résumé spells RIT as Rajiv Institute; the organizer's LinkedIn identity sa
 ## Search summary
 
 Commands: `webcmd --version`; `webcmd web fetch --url` for the supplied GitHub and LinkedIn profiles. Initial network access required escalation; GitHub returned FETCH_BLOCKED and LinkedIn extracted no usable content. Browser fallback: both supplied profiles, the GitHub public repository list and the seven README pages above. Signed-in browser access made LinkedIn posts readable. No Instagram browsing or media import was attempted, per the user's plan to supply photos directly.
+
+## Newly added hackathon results — reviewed 24 September 2026
+
+content/site.json updated to include the user-confirmed Faraway International Hackathon finalist result. Build What Moves India’s published Top 250 list places Drishti #118 and lists Aditya & Kanishk Ashish Dubey. Fund My Crazy’s public page describes its program; the Top 50 placement is user-reported and consistent with the user-supplied submission email describing the Build in Public Top 50 round, but the public homepage does not independently publish team ranks. Event date remains 2026 / September where an exact day was not established.
+
+- Build What Moves India Top 250: https://buildwhatmovesindia.com/top-250 (published entry #118, Drishti; builders listed as Aditya & Kanishk Ashish Dubey).
+- Fund My Crazy 2026: https://fundmycrazy.com/ (program overview); Top 50 Build in Public result reported by the user. The user-provided confirmation email describes this Top 50 stage.
+- Faraway International Hackathon: name and finalist result corrected by the user; held at Chandigarh University.
