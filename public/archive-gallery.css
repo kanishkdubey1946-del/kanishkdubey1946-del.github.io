@@ -1,0 +1,46 @@
+/* Animated archive cards in the live site's white and blue color system. */
+.gallery-archive [data-item][hidden]{display:none!important}
+.gallery-projects .project-grid,.event-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;align-items:stretch}
+.gallery-project-card{min-width:0;min-height:100%;display:flex;flex-direction:column;padding:13px 13px 23px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:border-color .26s,box-shadow .26s,transform .26s}
+.gallery-project-card:hover,.gallery-project-card:focus-within{border-color:#a6baff;box-shadow:0 20px 55px #204bb519;transform:translateY(-5px)}
+.gallery-project-card .visual-link{position:relative;isolation:isolate;aspect-ratio:1.26;border-radius:9px}
+.gallery-project-card .project-visual{width:100%;height:100%;border-radius:9px}
+.gallery-project-card .card-meta,.gallery-project-card h3,.gallery-project-card>p,.gallery-project-card>.tags,.gallery-project-card>.case-link{margin-left:8px;margin-right:8px}
+.gallery-project-card h3{font-size:clamp(24px,2.4vw,31px)}
+.gallery-project-card>p{flex:1;font-size:14px}
+.gallery-project-card .card-meta{margin-top:20px}
+.gallery-project-card .case-link{margin-top:21px}
+.gallery-hover-cover{position:absolute;z-index:2;inset:0;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:22px;color:#fff;background:linear-gradient(0deg,#071942c9,transparent 70%);font-size:14px;font-weight:500;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;pointer-events:none}
+.gallery-hover-cover>span{font-size:23px;line-height:1}
+.gallery-project-card .visual-link:hover .gallery-hover-cover,.gallery-project-card .visual-link:focus-visible .gallery-hover-cover{opacity:1;transform:none}
+.gallery-project-card .visual-link:hover .project-visual,.gallery-project-card .visual-link:focus-visible .project-visual{transform:scale(1.035)}
+.gallery-event-card{min-width:0;min-height:395px;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);transition:border-color .26s,box-shadow .26s,transform .26s}
+.gallery-event-card:hover,.gallery-event-card:focus-visible{border-color:#a6baff;box-shadow:0 20px 55px #204bb519;transform:translateY(-5px)}
+.gallery-event-visual{height:155px;position:relative;overflow:hidden;flex-shrink:0;background:radial-gradient(circle at 67% 50%,#d4e0ff 0%,#e9efff 55%,#f3f6ff 100%)}
+.gallery-event-visual:before,.gallery-event-visual:after{content:'';position:absolute;width:240px;height:240px;border:1px solid #2457eb30;border-radius:50%;top:-70px;right:-20px;transform:scaleX(1.25) rotate(25deg);pointer-events:none}
+.gallery-event-visual:after{width:155px;height:155px;top:2px;right:40px;border-color:#2457eb4a;transform:scaleX(1.3) rotate(-36deg)}
+.gallery-event-visual>img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .45s}
+.gallery-event-card:hover .gallery-event-visual>img{transform:scale(1.045)}
+.gallery-event-mark{position:absolute;left:19px;bottom:-33px;font-size:145px;line-height:1;letter-spacing:-.13em;color:#7999ed;opacity:.8;pointer-events:none}
+.gallery-event-type{position:absolute;right:16px;top:16px;padding:7px 11px;border-radius:30px;background:#ffffffd9;color:#31549a;font-size:10px;text-transform:uppercase;letter-spacing:.07em}
+.gallery-event-hover{position:absolute;left:17px;bottom:13px;padding:7px 10px;border-radius:5px;background:#2457eb;color:white;font-size:11px;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s}
+.gallery-event-card:hover .gallery-event-hover,.gallery-event-card:focus-visible .gallery-event-hover{opacity:1;transform:none}
+.gallery-type-finalist .gallery-event-visual{background:radial-gradient(circle at 67% 50%,#ded6fa,#f1edfc 65%)}
+.gallery-type-finalist .gallery-event-mark{color:#a598d7}
+.gallery-type-participation .gallery-event-visual{background:radial-gradient(circle at 67% 50%,#d4e8df,#eef6f1 65%)}
+.gallery-type-participation .gallery-event-mark{color:#87b9a3}
+.gallery-type-community .gallery-event-visual{background:radial-gradient(circle at 67% 50%,#f7e4cb,#fcf4ea 65%)}
+.gallery-type-community .gallery-event-mark{color:#d7ac75}
+.gallery-type-research .gallery-event-visual{background:radial-gradient(circle at 67% 50%,#d0e4ed,#eff7f9 65%)}
+.gallery-type-research .gallery-event-mark{color:#86b8c7}
+.gallery-event-content{display:flex;flex-direction:column;flex:1;padding:22px 22px 19px}
+.gallery-event-meta{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;font-size:10px;letter-spacing:.04em;color:#667181}
+.gallery-event-meta>span{color:var(--blue);text-align:right;font-weight:500}
+.gallery-event-content h3{font-size:clamp(23px,2.2vw,29px);line-height:1.2;letter-spacing:-.045em;margin:19px 0 11px}
+.gallery-event-content>p{font-size:13px;line-height:1.65;color:var(--muted);flex:1}
+.gallery-event-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);padding-top:13px;margin-top:23px;font-size:11px;color:#5d6778}
+.gallery-event-foot>span:last-child{font-size:20px;color:var(--blue);line-height:1}
+@media(max-width:1100px){.gallery-projects .project-grid,.event-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}
+@media(max-width:650px){.gallery-projects .project-grid,.event-gallery-grid{grid-template-columns:1fr;gap:22px}.gallery-project-card .visual-link{aspect-ratio:1.35}.gallery-event-card{min-height:365px}.gallery-event-visual{height:145px}.gallery-hover-cover,.gallery-event-hover{opacity:1;transform:none}.gallery-event-content{padding:21px}}
+@media(prefers-reduced-motion:reduce){.gallery-project-card,.gallery-event-card,.gallery-hover-cover,.gallery-event-hover,.gallery-event-visual>img{transition:none!important;transform:none!important}}
+html[data-reduce-motion=true] .gallery-project-card,html[data-reduce-motion=true] .gallery-event-card,html[data-reduce-motion=true] .gallery-hover-cover,html[data-reduce-motion=true] .gallery-event-hover{transition:none!important;transform:none!important}
