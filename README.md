@@ -1,1 +1,1 @@
-# Kanishk Dubey — portfolio
+# Kanishk Dubey — student portfolio
