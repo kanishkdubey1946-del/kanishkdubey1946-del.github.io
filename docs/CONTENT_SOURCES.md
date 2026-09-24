@@ -15,11 +15,11 @@ GDG Code for Community, second edition: second rank in the top five, 19 Septembe
 - RIT event (organizer post, reposted): https://www.linkedin.com/feed/update/urn:li:activity:7500302778100211713/
 - Chennai/Catalyst experience (teammate post, reposted): https://www.linkedin.com/feed/update/urn:li:activity:7500301450691002369/
 - Build with Swytchcode event recap: https://www.linkedin.com/feed/update/urn:li:activity:7497852907267096576/
-- Kanishk's organizer announcement: https://www.linkedin.com/feed/update/urn:li:activity:7491919267613888512/
+- Kanishk's Swytchcode post (role corrected directly by Kanishk to participant): https://www.linkedin.com/feed/update/urn:li:activity:7491919267613888512/
 - Kanishk's Bharatiya Antariksh participation post: https://www.linkedin.com/feed/update/urn:li:activity:7497640768942112768/
 - Kanishk's COMET/Webcmd Hackathon post: https://www.linkedin.com/feed/update/urn:li:activity:7491823645829353472/
 
-User explicitly confirmed participation in hackathons represented in his reposts. Organizer status at Swytchcode comes from his own post. Drishti is participation, not a win. Dates that could not be established precisely are shown as 2026, without guessing a day from relative LinkedIn timestamps. Seven visible activity entries were reviewed; older activity loading could not be completed, so this is not a claim to have exhaustively inspected all historical posts.
+User explicitly confirmed participation in hackathons represented in his reposts. Kanishk clarified directly that he attended Build with Swytchcode as a participant, not an organizer. Drishti is participation, not a win. Dates that could not be established precisely are shown as 2026, without guessing a day from relative LinkedIn timestamps. Seven visible activity entries were reviewed; older activity loading could not be completed, so this is not a claim to have exhaustively inspected all historical posts.
 
 ## GitHub evidence
 
