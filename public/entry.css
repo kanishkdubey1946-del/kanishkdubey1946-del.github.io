@@ -2,12 +2,16 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#081629}
 *{box-sizing:border-box}
 .entry-page{position:fixed;inset:0;isolation:isolate;overflow:hidden;background:radial-gradient(circle at 50% 44%,#213d76 0%,#10264d 40%,#081629 78%);font-family:Arial,sans-serif}
 .entry-screenreader{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.entry-robot{position:absolute;inset:0;overflow:hidden}
+.entry-robot{position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
 .entry-robot spline-viewer,.entry-react-canvas,.entry-robot .spline-react-loading{display:block;position:absolute!important;inset:0;width:100%!important;height:100%!important;z-index:1;touch-action:none}
-.entry-enter{position:absolute;z-index:4;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:space-between;gap:35px;min-width:218px;padding:14px 18px;border:1px solid #ffffff52;border-radius:999px;background:#07142dcc;color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.03em;box-shadow:0 12px 34px #0006;backdrop-filter:blur(12px);transition:background .2s,transform .2s,border-color .2s}
-.entry-enter:hover{background:#2457eb;border-color:#7697ff;transform:translateX(-50%) translateY(-2px)}
+.entry-overlay{position:absolute;z-index:100;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:14px;padding:24px;pointer-events:none}
+.entry-identity{display:flex;flex-direction:column;align-items:center;gap:5px;color:#fff;text-align:center;text-shadow:0 2px 18px #000b}
+.entry-identity strong{font-size:18px;font-weight:600;letter-spacing:.01em}
+.entry-identity span{color:#dce6ff;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+.entry-enter{position:relative;display:inline-flex;align-items:center;justify-content:space-between;gap:35px;min-width:218px;padding:14px 18px;border:1px solid #ffffff52;border-radius:999px;background:#07142dcc;color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.03em;box-shadow:0 12px 34px #0006;backdrop-filter:blur(12px);pointer-events:auto;cursor:pointer;transition:background .2s,transform .2s,border-color .2s}
+.entry-enter:hover{background:#2457eb;border-color:#7697ff;transform:translateY(-2px)}
 .entry-enter:focus-visible{outline:2px solid #fff;outline-offset:5px}
 .entry-enter span:last-child{font-size:19px;line-height:1}
 body:has(.entry-page) .site-header,body:has(.entry-page) .site-footer{display:none}
-@media(max-width:520px){.entry-robot{inset:-2% -18%}.entry-enter{bottom:max(18px,env(safe-area-inset-bottom));min-width:205px}}
+@media(max-width:520px){.entry-robot{inset:-2% -18%}.entry-overlay{padding:18px}.entry-enter{min-width:205px}}
 @media(prefers-reduced-motion:reduce){.entry-enter{transition:none}}
