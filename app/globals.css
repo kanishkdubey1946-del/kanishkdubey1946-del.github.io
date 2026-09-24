@@ -60,3 +60,26 @@
 @media(max-width:1100px){.desktop-nav{gap:16px}.desktop-nav a{font-size:14px}.wordmark-caption{display:none}}
 @media(max-width:760px){.portfolio-paths,.event-grid,.event-detail,.event-gallery,.repository-list{grid-template-columns:1fr}.portfolio-paths{gap:12px}.portfolio-paths>a+ a{border-top:1px solid var(--line);padding-top:25px}.event-card{padding:24px}.event-detail{gap:28px}.event-gallery img,.event-gallery video{height:270px}.contact-directory .eyebrow{width:100%}.event-intro .project-meta{display:block}.event-intro .project-meta span{display:block}.gallery-empty{padding:40px 20px}}
 .footer-page-links{display:flex;flex-wrap:wrap;gap:16px 28px;padding:28px 0;font-size:16px}.footer-page-links a:hover{text-decoration:underline}.studio-field select{padding:12px;background:var(--panel);color:var(--paper);border:1px solid var(--line);width:100%}
+
+
+/* Spline scene in the React homepage; uses the existing Orbital Copper palette. */
+.hero-with-spline{background:var(--ink)}
+.hero-with-spline .hero-media{opacity:.2;filter:saturate(.55)}
+.hero-with-spline .hero-shade{background:linear-gradient(90deg,#080d14f7 0%,#080d14bd 50%,#080d14aa 100%)}
+.hero-with-spline .hero-content{position:relative;z-index:2;max-width:58%;padding-right:20px}
+.hero-with-spline .hero-content>p{max-width:470px}
+.hero-react-spline{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);width:min(43%,650px);height:min(69vh,610px);min-height:440px;z-index:1;border:1px solid #7b9a9c57;border-radius:15px;background:#111a24;box-shadow:0 28px 90px #0009;overflow:hidden}
+.hero-react-spline-top,.hero-react-spline-bottom{height:48px;display:flex;align-items:center;justify-content:space-between;gap:15px;padding-inline:22px;font:10px var(--mono);letter-spacing:.08em;color:#bfc8c2}
+.hero-react-spline-top{border-bottom:1px solid var(--line)}
+.hero-react-spline-top span:first-child{display:flex;align-items:center;gap:10px}
+.hero-react-spline-top i{width:7px;height:7px;background:var(--signal);border-radius:50%;box-shadow:0 0 0 4px #75c7b929}
+.hero-react-spline-bottom{border-top:1px solid var(--line)}
+.hero-react-spline-stage{position:relative;height:calc(100% - 96px);background:radial-gradient(circle at 55% 45%,#294557,#162230 50%,#111a24 85%)}
+.hero-react-spline-stage canvas,.hero-react-canvas{width:100%!important;height:100%!important}
+.spline-react-loading{height:100%;display:grid;place-items:center;color:#e0ded3;font:11px var(--mono);letter-spacing:.08em}
+.spline-react-loading:before{content:'';position:absolute;width:55%;aspect-ratio:1;border:1px solid #75c7b966;border-radius:50%;transform:rotate(-20deg) scaleX(1.4)}
+@media(max-width:1000px){.hero-with-spline .hero-content{max-width:60%}.hero-with-spline h1{font-size:clamp(54px,7vw,90px)}.hero-react-spline{width:40%;min-height:390px}}
+@media(max-width:800px){.hero-with-spline{height:auto;max-height:none;min-height:0;padding-bottom:110px}.hero-with-spline .hero-content{max-width:100%;padding-bottom:35px}.hero-react-spline{position:relative;inset:auto;transform:none;width:calc(100% - 2 * var(--gutter));height:460px;min-height:0;margin:0 var(--gutter)}.hero-with-spline .hero-coordinate{display:none}}
+@media(max-width:600px){.hero-with-spline .hero-content{padding:70px 24px 30px}.hero-with-spline h1{font-size:clamp(58px,14vw,88px)}.hero-react-spline{width:calc(100% - 48px);height:350px;margin-inline:24px}.hero-react-spline-top,.hero-react-spline-bottom{height:40px;padding-inline:12px;font-size:8px}.hero-react-spline-stage{height:calc(100% - 80px)}}
+@media(prefers-reduced-motion:reduce){.hero-react-spline-stage canvas{display:none}}
+html[data-reduce-motion=true] .hero-react-spline-stage canvas{display:none}
