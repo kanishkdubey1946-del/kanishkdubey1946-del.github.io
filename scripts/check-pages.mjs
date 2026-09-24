@@ -30,6 +30,8 @@ for(const [key,base] of [['projects','projects'],['events','achievements'],['wri
 }
 const all=await Promise.all(manifest.map(p=>readFile(resolve(root,p),'utf8')));
 assert(!all.some(h=>h.includes('undefined')||h.includes('[object Object]')),'No template leakage');
-assert((await readFile(resolve(root,'index.html'),'utf8')).includes('Enter portfolio'),'Robot entrance is present');
+const entrance=await readFile(resolve(root,'index.html'),'utf8');
+assert(entrance.includes('Enter portfolio')&&entrance.includes('<spline-viewer'),'Robot entrance is present');
+assert(!entrance.includes('kanishk-presenting.jpg')&&!entrance.includes('entry-intro'),'Entrance stays a single static screen');
 assert((await readFile(resolve(root,'portfolio/index.html'),'utf8')).includes('Curious by nature.'),'Portfolio home is present');
 console.log('PASS: '+manifest.length+' static pages; '+checked+' local links/assets; published/draft routes; complete documents.');
